@@ -28,3 +28,33 @@ services:
     labels:
       - "traefik.http.routers.frontend-service.rule=Host(`localhost`)"
       - "traefik.http.routers.frontend-service.entrypoints=web"
+
+  service:
+    platform: "linux/amd64"
+    build:
+      context: ./service
+      dockerfile: Dockerfile
+    working_dir: /app
+    image: matchmade-miniproject-service
+    hostname: service.docker-compose
+    labels:
+      - "traefik.http.routers.service.rule=Host(`api.service.localhost`)"
+      - "traefik.http.routers.service.entrypoints=web"
+    depends_on:
+      - database
+    environment:
+      - DATABASE_URL=postgresql://matchmade:matchmade@db:5432/matchmade
+
+  database:
+    image: postgres:16.0
+    volumes:
+      - database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: matchmade
+      POSTGRES_PASSWORD: matchmade
+      POSTGRES_DB: matchmade
+    hostname: database.docker-compose
+
+# Volumes
+volumes:
+  database:
