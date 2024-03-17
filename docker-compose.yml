@@ -38,12 +38,12 @@ services:
     image: matchmade-miniproject-service
     hostname: service.docker-compose
     labels:
-      - "traefik.http.routers.service.rule=Host(`api.service.localhost`)"
+      - "traefik.http.routers.service.rule=Host(`api.localhost`)"
       - "traefik.http.routers.service.entrypoints=web"
     depends_on:
       - database
     environment:
-      - DATABASE_URL=postgresql://matchmade:matchmade@db:5432/matchmade
+      - DATABASE_URL=postgresql://matchmade:matchmade@database.docker-compose:5432/matchmade
 
   database:
     image: postgres:16.0
@@ -58,3 +58,4 @@ services:
 # Volumes
 volumes:
   database:
+    driver: local

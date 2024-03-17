@@ -20,7 +20,7 @@ WORKDIR /root/
 # Copy the binary from the builder stage
 COPY --from=builder /server/service .
 
-EXPOSE 3001
+EXPOSE 8080
 
 # Run the application
 CMD ["./service", "start"]
