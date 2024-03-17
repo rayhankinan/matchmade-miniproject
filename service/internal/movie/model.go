@@ -1,19 +1,19 @@
 package movie
 
 import (
+	"database/sql"
 	"service/internal/user"
 
 	"gorm.io/gorm"
 )
 
+// TODO: Add necessary fields to preview the movie
 type Movie struct {
 	gorm.Model
-	UserID      uint   `gorm:"not null"`
-	Title       string `gorm:"not null"`
-	ImgLink     string
-	ReleaseDate string
-	Summary     string
-	Genre       string
-	Rating      *int
-	User        user.User `gorm:"foreignKey:UserID"`
+
+	UserID  uint `gorm:"not null"`
+	MovieID uint `gorm:"not null"`
+	Rating  sql.Null[uint16]
+
+	User user.User `gorm:"foreignKey:UserID;references:ID"`
 }

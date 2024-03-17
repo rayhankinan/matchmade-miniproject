@@ -60,7 +60,6 @@ func (c *StartCmd) StartServer() {
 func NewStartCmd(dep *Dep) (cmd IStartCmd) {
 	// Create a new server instance
 	s := server.NewServer(dep.Logger)
-
 	// Create a new configuration instance
 	cfg, err := config.LoadEnvironment()
 	if err != nil {
@@ -68,13 +67,15 @@ func NewStartCmd(dep *Dep) (cmd IStartCmd) {
 	}
 
 	// Create a new database connection
-	_, err = NewDatabaseConn(cfg)
+	db, err := NewDatabaseConn(cfg)
 	if err != nil {
 		dep.Logger.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	// Create a new handler and register the route
-	healthcheckHandler := healthcheck.NewHandle()
+	// Register the healthcheck module
+	healthcheckRepo := healthcheck.NewRepository(db)
+	healthcheckUseCase := healthcheck.NewUseCase(healthcheckRepo)
+	healthcheckHandler := healthcheck.NewHandler(healthcheckUseCase, dep.Logger)
 	healthcheck.RegisterRoute(s, healthcheckHandler)
 
 	// Create a new quit channel

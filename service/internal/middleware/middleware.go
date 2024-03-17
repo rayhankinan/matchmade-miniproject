@@ -10,6 +10,7 @@ type Middleware struct {
 	Logger *logrus.Logger
 }
 
-func NewMiddleware(logger *logrus.Logger) IMiddleware {
-	return Middleware{Logger: logger}
+func NewMiddleware(logger *logrus.Logger) (m IMiddleware) {
+	m = Middleware{Logger: logger}
+	return
 }
