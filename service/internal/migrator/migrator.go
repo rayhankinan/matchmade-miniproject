@@ -57,8 +57,9 @@ func NewMigrateCmd(dep *app.Dep) (cmd IMmigrateCmd) {
 		dep.Logger.Fatalf("Failed to connect to database: %v", err)
 	}
 
-	return &MigrateCmd{
+	cmd = &MigrateCmd{
 		Logger: dep.Logger,
 		DB:     db,
 	}
+	return
 }
