@@ -35,8 +35,8 @@ func (c *StartCmd) StartServer() {
 		}
 
 		// Start the server
-		if err := c.Server.Start(cfg); err != nil && errors.Is(err, http.ErrServerClosed) {
-			c.Logger.Fatalf("Shutting down the server: %v", err)
+		if err := c.Server.Start(cfg); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			c.Logger.Fatalf("Error while shutting down the server: %v", err)
 		}
 	}()
 
