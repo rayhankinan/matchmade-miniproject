@@ -62,16 +62,16 @@ func NewStartCmd(dep *Dep) (cmd IStartCmd) {
 	s := server.NewServer(dep.Logger)
 
 	// Create a new configuration instance
-	_, err := config.LoadEnvironment()
+	cfg, err := config.LoadEnvironment()
 	if err != nil {
 		dep.Logger.Fatalf("Failed to load environment configuration: %v", err)
 	}
 
 	// Create a new database connection
-	// db, err = NewDatabaseConn(cfg)
-	// if err != nil {
-	// 	dep.Logger.Fatalf("Failed to connect to database: %v", err)
-	// }
+	_, err = NewDatabaseConn(cfg)
+	if err != nil {
+		dep.Logger.Fatalf("Failed to connect to database: %v", err)
+	}
 
 	// Create a new handler and register the route
 	healthcheckHandler := healthcheck.NewHandle()
