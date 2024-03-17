@@ -15,6 +15,7 @@ services:
     volumes:
       # So that Traefik can listen to the Docker events
       - /var/run/docker.sock:/var/run/docker.sock
+      # The configuration file
       - ./traefik.yml:/etc/traefik/traefik.yml
 
   web:
@@ -43,17 +44,21 @@ services:
     depends_on:
       - database
     environment:
-      - DATABASE_URL=postgresql://matchmade:matchmade@database.docker-compose:5432/matchmade
+      - DATABASE_HOST=database.docker-compose
+      - DATABASE_PORT=5432
+      - DATABASE_USER=matchmade
+      - DATABASE_PASSWORD=matchmade
+      - DATABASE_NAME=matchmade
 
   database:
     image: postgres:16.0
     volumes:
       - database:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: matchmade
-      POSTGRES_PASSWORD: matchmade
-      POSTGRES_DB: matchmade
     hostname: database.docker-compose
+    environment:
+      - POSTGRES_USER=matchmade
+      - POSTGRES_PASSWORD=matchmade
+      - POSTGRES_DB=matchmade
 
 # Volumes
 volumes:

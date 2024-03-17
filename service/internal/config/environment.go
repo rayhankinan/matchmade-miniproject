@@ -5,25 +5,24 @@ import (
 )
 
 type EnvironmentConfig struct {
-	DatabaseDSN string `mapstructure:"DATABASE_DSN"`
+	DatabaseHost     string `mapstructure:"DATABASE_HOST"`
+	DatabasePort     int    `mapstructure:"DATABASE_PORT"`
+	DatabaseUser     string `mapstructure:"DATABASE_USER"`
+	DatabasePassword string `mapstructure:"DATABASE_PASSWORD"`
+	DatabaseName     string `mapstructure:"DATABASE_NAME"`
 }
 
 func init() {
-	viper.AddConfigPath(".")
-	viper.SetConfigName(".env")
-	viper.SetConfigType("env")
-
-	viper.AutomaticEnv()
+	// Bind the environment variables to the configuration
+	viper.BindEnv("DATABASE_HOST")
+	viper.BindEnv("DATABASE_PORT")
+	viper.BindEnv("DATABASE_USER")
+	viper.BindEnv("DATABASE_PASSWORD")
+	viper.BindEnv("DATABASE_NAME")
 }
 
-func LoadEnvironment() (config EnvironmentConfig, err error) {
-	// Read the command line flags
-	err = viper.ReadInConfig()
-	if err != nil {
-		return
-	}
-
+func LoadEnvironment() (cfg EnvironmentConfig, err error) {
 	// Unmarshal the configuration into the struct
-	err = viper.Unmarshal(&config)
+	err = viper.Unmarshal(&cfg)
 	return
 }

@@ -1,6 +1,8 @@
 package app
 
 import (
+	"fmt"
+
 	"service/internal/config"
 
 	"gorm.io/driver/postgres"
@@ -8,6 +10,11 @@ import (
 )
 
 func NewDatabaseConn(cfg config.EnvironmentConfig) (db *gorm.DB, err error) {
-	db, err = gorm.Open(postgres.Open(cfg.DatabaseDSN), &gorm.Config{})
+	db, err = gorm.Open(
+		postgres.Open(
+			fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", cfg.DatabaseHost, cfg.DatabasePort, cfg.DatabaseUser, cfg.DatabasePassword, cfg.DatabaseName),
+		),
+		&gorm.Config{},
+	)
 	return
 }

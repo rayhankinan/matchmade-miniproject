@@ -19,12 +19,6 @@ func init() {
 }
 
 func LoadFlags() (config FlagConfig, err error) {
-	// Read the command line flags
-	err = viper.ReadInConfig()
-	if err != nil {
-		return
-	}
-
 	// Unmarshal the configuration into the struct
 	err = viper.Unmarshal(&config)
 	return
