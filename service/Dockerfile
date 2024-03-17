@@ -1,6 +1,9 @@
+# syntax=docker/dockerfile:1
+
+# Build stage
 FROM golang:1.22 as builder
 
-WORKDIR /server
+WORKDIR /app
 
 # Download Go modules
 COPY go.mod go.sum ./
@@ -15,10 +18,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o service .
 # Final stage
 FROM alpine:latest
 
-WORKDIR /root/
+WORKDIR /app
 
 # Copy the binary from the builder stage
-COPY --from=builder /server/service .
+COPY --from=builder /app/service .
 
 EXPOSE 8080
 
