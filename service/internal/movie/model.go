@@ -7,12 +7,13 @@ import (
 	"gorm.io/gorm"
 )
 
-// TODO: Add necessary fields to preview the movie
 type Movie struct {
 	gorm.Model
 
-	UserID  uint `gorm:"not null"`
-	MovieID uint `gorm:"not null"`
+	UserID  uint   `gorm:"not null"`
+	MovieID uint   `gorm:"not null"`
+	Title   string `gorm:"not null"`
+	Image   sql.Null[string]
 	Rating  sql.Null[uint16]
 
 	User user.User `gorm:"foreignKey:UserID;references:ID"`
