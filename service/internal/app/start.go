@@ -60,6 +60,7 @@ func (c *StartCmd) StartServer() {
 func NewStartCmd(dep *Dep) (cmd IStartCmd) {
 	// Create a new server instance
 	s := server.NewServer(dep.Logger)
+
 	// Create a new configuration instance
 	cfg, err := config.LoadEnvironment()
 	if err != nil {
