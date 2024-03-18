@@ -11,15 +11,21 @@ type EnvironmentConfig struct {
 
 func init() {
 	// Bind the environment variables to the configuration
-	viper.BindEnv("DATABASE_HOST")
-	viper.BindEnv("DATABASE_PORT")
-	viper.BindEnv("DATABASE_USER")
-	viper.BindEnv("DATABASE_PASSWORD")
-	viper.BindEnv("DATABASE_NAME")
+	viper.AddConfigPath(".")
+	viper.SetConfigName(".env")
+	viper.SetConfigType("env")
+
+	viper.AutomaticEnv()
 }
 
-func LoadEnvironment() (cfg EnvironmentConfig, err error) {
+func LoadEnvironment() (config EnvironmentConfig, err error) {
+	// Read the command line flags
+	err = viper.ReadInConfig()
+	if err != nil {
+		return
+	}
+
 	// Unmarshal the configuration into the struct
-	err = viper.Unmarshal(&cfg)
+	err = viper.Unmarshal(&config)
 	return
 }
