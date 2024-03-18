@@ -6,15 +6,16 @@ import (
 	"service/internal/config"
 
 	"github.com/golang-jwt/jwt/v4"
+	"github.com/google/uuid"
 )
 
 type Claims struct {
-	Email string `json:"email"`
+	UserID uuid.UUID `json:"userID"`
 	jwt.RegisteredClaims
 }
 
 // GenerateJWT generates a new JWT token
-func GenerateJWT(email string) (string, error) {
+func GenerateJWT(userId uuid.UUID) (string, error) {
 	config, err := config.LoadEnvironment()
 	if err != nil {
 		return "", err
@@ -23,7 +24,7 @@ func GenerateJWT(email string) (string, error) {
 	jwtKey := []byte(config.JWTSecret)
 
 	claims := &Claims{
-		Email: email,
+		UserID: userId,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 		},

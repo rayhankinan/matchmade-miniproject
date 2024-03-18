@@ -24,7 +24,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Error loading environment variables")
 		}
 
-		parsedToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		parsedToken, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, echo.NewHTTPError(http.StatusUnauthorized, "Unexpected signing method")
 			}
@@ -32,7 +32,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		})
 
 		if claims, ok := parsedToken.Claims.(jwt.MapClaims); ok && parsedToken.Valid {
-			c.Set("email", claims["email"])
+			c.Set("userID", claims["email"])
 		} else {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid token")
 		}

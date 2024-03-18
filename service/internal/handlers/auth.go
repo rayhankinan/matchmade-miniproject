@@ -40,8 +40,8 @@ func (h *AuthHandler) Register(c echo.Context) error {
 
 func (h *AuthHandler) Login(c echo.Context) error {
 	var LoginRequest struct {
-		Email    string `json:"email"`
-		Password string `json:"password"`
+		Identifier string `json:"identifier"`
+		Password   string `json:"password"`
 	}
 
 	err := c.Bind(&LoginRequest)
@@ -49,7 +49,7 @@ func (h *AuthHandler) Login(c echo.Context) error {
 		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request"})
 	}
 
-	token, err := h.AuthUseCase.Login(LoginRequest.Email, LoginRequest.Password)
+	token, err := h.AuthUseCase.Login(LoginRequest.Identifier, LoginRequest.Password)
 	if err != nil {
 		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Invalid credentials"})
 	}

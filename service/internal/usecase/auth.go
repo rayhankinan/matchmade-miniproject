@@ -34,8 +34,8 @@ func (a *AuthUseCase) Register(user models.User) (models.User, error) {
 	return user, nil
 }
 
-func (a *AuthUseCase) Login(email string, password string) (string, error) {
-	user, err := a.UserRepo.FindByEmail(email)
+func (a *AuthUseCase) Login(identifier string, password string) (string, error) {
+	user, err := a.UserRepo.FindByEmailOrUsername(identifier)
 	if err != nil {
 		return "", err
 	}
@@ -45,7 +45,7 @@ func (a *AuthUseCase) Login(email string, password string) (string, error) {
 		return "", err
 	}
 
-	token, err := utils.GenerateJWT(user.Email)
+	token, err := utils.GenerateJWT(user.ID)
 	if err != nil {
 		return "", err
 	}
