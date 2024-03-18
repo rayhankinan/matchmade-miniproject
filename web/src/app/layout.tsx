@@ -1,8 +1,10 @@
 import { Inter } from "next/font/google";
 
-import { cn } from "~/lib/utils";
 import ClientProvider from "~/providers/client";
 import ThemeProvider from "~/providers/theme";
+import AuthProvider from "~/providers/auth";
+import { cn } from "~/lib/utils";
+
 import "~/styles/globals.css";
 
 const inter = Inter({
@@ -35,7 +37,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ClientProvider>{children}</ClientProvider>
+          <ClientProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </ClientProvider>
         </ThemeProvider>
       </body>
     </html>
