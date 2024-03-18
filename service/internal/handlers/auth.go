@@ -25,12 +25,14 @@ func (h *AuthHandler) Register(c echo.Context) error {
 	var user models.User
 	err := c.Bind(&user)
 	if err != nil {
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request"})
+		log.Println(err)
+		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
 	user, err = h.AuthUseCase.Register(user)
 	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Internal server error"})
+		log.Println(err)
+		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Internal server error: " + err.Error()})
 	}
 
 	log.Println("User registered successfully")
@@ -46,11 +48,13 @@ func (h *AuthHandler) Login(c echo.Context) error {
 
 	err := c.Bind(&LoginRequest)
 	if err != nil {
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request"})
+		log.Println(err)
+		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
 	token, err := h.AuthUseCase.Login(LoginRequest.Identifier, LoginRequest.Password)
 	if err != nil {
+		log.Println(err)
 		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Invalid credentials"})
 	}
 

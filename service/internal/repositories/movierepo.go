@@ -21,6 +21,6 @@ func (c *GormMovieRepo) Create(movie *models.Movie) error {
 	return c.DB.Create(&movie).Error
 }
 
-func (c *GormMovieRepo) Delete(id uuid.UUID) error {
-	return c.DB.Delete(&models.Movie{}, id).Error
+func (c *GormMovieRepo) Delete(mid uuid.UUID) error {
+	return c.DB.Delete(&models.Movie{}, mid).Error
 }

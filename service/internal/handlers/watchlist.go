@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 
-	"service/internal/models"
 	"service/internal/usecase"
 	"service/internal/utils"
 
@@ -23,18 +22,20 @@ func NewWatchlistHandler(watchlistUseCase *usecase.WatchlistUseCase) *WatchlistH
 }
 
 func (h *WatchlistHandler) AddMovieToWatchlist(c echo.Context) error {
-	var movie models.Movie
-	err := c.Bind(&movie)
+	var MovieRequest utils.MovieRequest
+	err := c.Bind(&MovieRequest)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request"})
+		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Invalid user ID"})
+		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
+
+	movie, _ := MovieRequest.ToMovie(UserID)
 
 	movie, err = h.WatchlistUseCase.AddMovie(movie, UserID)
 	if err != nil {
@@ -50,17 +51,20 @@ func (h *WatchlistHandler) RemoveMovieFromWatchlist(c echo.Context) error {
 	movieID := c.Param("id")
 	MovieID, err := uuid.Parse(movieID)
 	if err != nil {
+		log.Println(err)
 		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid movie ID"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Invalid user ID"})
+		log.Println(err)
+		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
 	err = h.WatchlistUseCase.RemoveMovie(MovieID, UserID)
 	if err != nil {
+		log.Println(err)
 		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to remove movie from watchlist"})
 	}
 

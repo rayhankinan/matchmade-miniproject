@@ -33,7 +33,7 @@ func (c *GormUserRepo) FindByEmailOrUsername(identifier string) (*models.User, e
 
 func (c *GormUserRepo) FindById(id uuid.UUID) (*models.User, error) {
 	var user models.User
-	err := c.DB.Find(&user, "id = ?", id).Error
+	err := c.DB.Find(&user, "uid = ?", id).Error
 	if err != nil {
 		return nil, err
 	}

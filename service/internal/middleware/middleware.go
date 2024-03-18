@@ -14,6 +14,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		token, err := c.Cookie("AUTH_TOKEN")
 		if err != nil {
+			log.Println(err)
 			return echo.NewHTTPError(http.StatusUnauthorized, "Missing token")
 		}
 
@@ -21,6 +22,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		config, err := config.LoadEnvironment()
 		if err != nil {
+			log.Println(err)
 			return echo.NewHTTPError(http.StatusInternalServerError, "Error loading environment variables")
 		}
 

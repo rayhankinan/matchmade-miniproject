@@ -19,7 +19,7 @@ func NewWatchlistUseCase(movieRepo models.MovieRepository, userRepo models.UserR
 }
 
 func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (models.Movie, error) {
-	movie.ID = uuid.New()
+	movie.MID = uuid.New()
 
 	_, err := w.UserRepo.FindById(userID)
 	if err != nil {

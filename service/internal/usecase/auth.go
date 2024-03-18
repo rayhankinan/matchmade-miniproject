@@ -18,7 +18,7 @@ func NewAuthUseCase(userRepo models.UserRepository) *AuthUseCase {
 }
 
 func (a *AuthUseCase) Register(user models.User) (models.User, error) {
-	user.ID = uuid.New()
+	user.UID = uuid.New()
 	hashedPassword, err := utils.HashPassword(user.Password)
 	if err != nil {
 		return models.User{}, err
@@ -45,7 +45,7 @@ func (a *AuthUseCase) Login(identifier string, password string) (string, error) 
 		return "", err
 	}
 
-	token, err := utils.GenerateJWT(user.ID, user.Email, user.Username)
+	token, err := utils.GenerateJWT(user.UID, user.Email, user.Username)
 	if err != nil {
 		return "", err
 	}
