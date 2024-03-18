@@ -1,5 +1,3 @@
-"use client";
-
 import Profile from "~/components/app/navbar/profile";
 import ModeToggle from "~/components/app/navbar/mode-toggle";
 

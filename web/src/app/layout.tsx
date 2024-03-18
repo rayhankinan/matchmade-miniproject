@@ -1,5 +1,5 @@
-import { Inter } from "next/font/google";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Inter } from "next/font/google";
 
 import { Toaster } from "~/components/ui/toaster";
 
