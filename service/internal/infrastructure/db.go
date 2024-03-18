@@ -2,6 +2,7 @@ package infrastructure
 
 import (
 	"fmt"
+
 	"service/internal/config"
 	"strconv"
 

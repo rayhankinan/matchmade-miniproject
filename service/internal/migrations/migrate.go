@@ -2,6 +2,7 @@ package migrations
 
 import (
 	"fmt"
+
 	"service/internal/infrastructure"
 	"service/internal/models"
 )

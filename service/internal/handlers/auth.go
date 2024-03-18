@@ -55,5 +55,8 @@ func (h *AuthHandler) Login(c echo.Context) error {
 	}
 
 	log.Println("User logged in successfully")
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{Data: map[string]string{"token": token}})
+
+	utils.SetCookie(c, "AUTH_TOKEN", token)
+
+	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{})
 }

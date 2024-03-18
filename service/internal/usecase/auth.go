@@ -1,9 +1,10 @@
 package usecase
 
 import (
-	"github.com/google/uuid"
 	"service/internal/models"
 	"service/internal/utils"
+
+	"github.com/google/uuid"
 )
 
 type AuthUseCase struct {

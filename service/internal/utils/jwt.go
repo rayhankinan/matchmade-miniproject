@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"service/internal/config"
 	"time"
+
+	"service/internal/config"
 
 	"github.com/golang-jwt/jwt/v4"
 )

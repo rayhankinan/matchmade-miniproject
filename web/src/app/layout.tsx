@@ -1,7 +1,8 @@
 import { Inter } from "next/font/google";
 
 import { cn } from "~/lib/utils";
-import Providers from "~/providers";
+import ClientProvider from "~/providers/client";
+import ThemeProvider from "~/providers/theme";
 import "~/styles/globals.css";
 
 const inter = Inter({
@@ -28,7 +29,14 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <Providers>{children}</Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ClientProvider>{children}</ClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
