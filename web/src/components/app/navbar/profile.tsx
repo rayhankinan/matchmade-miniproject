@@ -20,10 +20,6 @@ import useSession from "~/hooks/auth";
 
 import api from "~/client/api";
 
-type LogoutButtonResponse = {
-  data: null;
-};
-
 export default function Profile() {
   const session = useSession();
   const router = useRouter();
@@ -31,7 +27,7 @@ export default function Profile() {
   const { toast } = useToast();
 
   const logoutMutation = useMutation({
-    mutationFn: async () => await api.post<LogoutButtonResponse>("/logout"),
+    mutationFn: async () => await api.post("/users/logout"),
     onSuccess: () => router.refresh(),
     onError: (error) =>
       toast({
@@ -47,7 +43,9 @@ export default function Profile() {
         <Button variant="outline" asChild>
           <Link href="/login">Sign in</Link>
         </Button>
-        <Button>Sign Up</Button>
+        <Button asChild>
+          <Link href="/register">Sign up</Link>
+        </Button>
       </>
     );
 

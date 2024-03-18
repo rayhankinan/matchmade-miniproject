@@ -22,31 +22,37 @@ import { useToast } from "~/components/ui/use-toast";
 import api from "~/client/api";
 
 const formSchema = z.object({
-  identifier: z.string(),
-  password: z.string(),
+  email: z.string().email({ message: "Invalid email address" }),
+  username: z
+    .string()
+    .min(3, { message: "Username must be at least 3 characters" })
+    .max(20, { message: "Username must be at most 20 characters" }),
+  password: z
+    .string()
+    .min(8, { message: "Password must be at least 8 characters" }),
 });
 
-type LoginFormData = z.infer<typeof formSchema>;
+type RegisterFormData = z.infer<typeof formSchema>;
 
-export default function LoginForm() {
+export default function RegisterForm() {
   const router = useRouter();
 
   const { toast } = useToast();
 
-  const form = useForm<LoginFormData>({
+  const form = useForm<RegisterFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      identifier: "",
+      email: "",
+      username: "",
       password: "",
     },
   });
 
-  const loginMutation = useMutation({
-    mutationFn: async (data: LoginFormData) =>
-      await api.post("/users/login", data),
+  const registerMutation = useMutation({
+    mutationFn: async (data: RegisterFormData) =>
+      await api.post("/users/register", data),
     onSuccess: () => {
-      router.push("/");
-      router.refresh();
+      router.push("/login");
     },
     onError: (error) => {
       toast({
@@ -59,23 +65,43 @@ export default function LoginForm() {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) =>
-    loginMutation.mutate(data);
+  const onSubmit: SubmitHandler<RegisterFormData> = (data) =>
+    registerMutation.mutate(data);
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="identifier"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email or Username</FormLabel>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  type="email"
+                  placeholder="yourname@example.com"
+                />
+              </FormControl>
+              <FormDescription>
+                Enter your email address for your account
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input {...field} type="text" placeholder="username" />
               </FormControl>
               <FormDescription>
-                Enter the email address or username associated with your account
+                Enter your username for your account
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -90,7 +116,9 @@ export default function LoginForm() {
               <FormControl>
                 <Input {...field} type="password" placeholder="password" />
               </FormControl>
-              <FormDescription>Enter your password</FormDescription>
+              <FormDescription>
+                Enter your password (min. 8 characters)
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}

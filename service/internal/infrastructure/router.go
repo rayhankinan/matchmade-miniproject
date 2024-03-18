@@ -1,7 +1,6 @@
 package infrastructure
 
 import (
-	"net/http"
 	"service/internal/handlers"
 	"service/internal/middleware"
 	"service/internal/repositories"
@@ -22,17 +21,14 @@ func CreateRoute(db *gorm.DB) *echo.Echo {
 	movieUsecase := usecase.NewWatchlistUseCase(movieRepo, userRepo)
 	movieHandler := handlers.NewWatchlistHandler(movieUsecase)
 
-	e.POST("/register", userHandler.Register)
-	e.POST("/login", userHandler.Login)
-	e.POST("/logout", userHandler.Logout, middleware.JWTAuthMiddleware)
+	userRoute := e.Group("/users")
+	userRoute.POST("/register", userHandler.Register)
+	userRoute.POST("/login", userHandler.Login)
+	userRoute.POST("/logout", userHandler.Logout, middleware.JWTAuthMiddleware)
 
-	secure := e.Group("/v1")
-	secure.Use(middleware.JWTAuthMiddleware)
-	secure.GET("/tes", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello, World!!!")
-	})
-	secure.POST("/add", movieHandler.AddMovieToWatchlist, middleware.JWTAuthMiddleware)
-	secure.DELETE("/remove/:id", movieHandler.RemoveMovieFromWatchlist, middleware.JWTAuthMiddleware)
+	movieRoute := e.Group("/movies", middleware.JWTAuthMiddleware)
+	movieRoute.POST("/add", movieHandler.AddMovieToWatchlist, middleware.JWTAuthMiddleware)
+	movieRoute.DELETE("/remove/:id", movieHandler.RemoveMovieFromWatchlist, middleware.JWTAuthMiddleware)
 
 	return e
 }
