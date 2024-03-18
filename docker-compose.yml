@@ -27,8 +27,8 @@ services:
     image: matchmade-miniproject-web
     hostname: web.docker-compose
     labels:
-      - "traefik.http.routers.frontend-service.rule=Host(`localhost`)"
-      - "traefik.http.routers.frontend-service.entrypoints=web"
+      - "traefik.http.routers.web.rule=Host(`localhost`)"
+      - "traefik.http.routers.web.entrypoints=web"
 
   service:
     platform: "linux/amd64"
@@ -39,8 +39,10 @@ services:
     image: matchmade-miniproject-service
     hostname: service.docker-compose
     labels:
-      - "traefik.http.routers.service.rule=Host(`api.localhost`)"
+      - "traefik.http.routers.service.rule=Host(`localhost`) && PathPrefix(`/api`)"
       - "traefik.http.routers.service.entrypoints=web"
+      - "traefik.http.middlewares.service-stripprefix.stripprefix.prefixes=/api"
+      - "traefik.http.routers.service.middlewares=service-stripprefix"
     depends_on:
       - database
     environment:
@@ -56,6 +58,8 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
     hostname: database.docker-compose
+    ports:
+      - "5433:5432"
     environment:
       - POSTGRES_USER=matchmade
       - POSTGRES_PASSWORD=matchmade

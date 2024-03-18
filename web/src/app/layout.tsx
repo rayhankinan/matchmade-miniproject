@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import ClientProvider from "~/providers/client";
 import ThemeProvider from "~/providers/theme";
 import AuthProvider from "~/providers/auth";
+import { getAuth } from "~/server/auth";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
-import { getAuth } from "~/server/auth";
 
 const inter = Inter({
   subsets: ["latin"],

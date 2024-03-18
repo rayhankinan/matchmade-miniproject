@@ -18,7 +18,7 @@ func SetCookie(c echo.Context, name string, value string) {
 	cookie := new(http.Cookie)
 	cookie.Name = name
 	cookie.Value = value
-	cookie.Domain = ".localhost"
+	cookie.Domain = "localhost"
 	cookie.Path = "/"
 	cookie.HttpOnly = true
 	cookie.Secure = true
