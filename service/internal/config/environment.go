@@ -5,11 +5,8 @@ import (
 )
 
 type EnvironmentConfig struct {
-	DatabaseHost     string `mapstructure:"DATABASE_HOST"`
-	DatabasePort     int    `mapstructure:"DATABASE_PORT"`
-	DatabaseUser     string `mapstructure:"DATABASE_USER"`
-	DatabasePassword string `mapstructure:"DATABASE_PASSWORD"`
-	DatabaseName     string `mapstructure:"DATABASE_NAME"`
+	DatabaseDSN string `mapstructure:"DATABASE_DSN"`
+	JWTSecret   string `mapstructure:"JWT_SECRET"`
 }
 
 func init() {
