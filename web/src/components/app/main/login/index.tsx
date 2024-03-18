@@ -40,7 +40,10 @@ export default function LoginForm() {
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) =>
       await api.post<LoginFormResponse>("/login", data),
-    onSuccess: () => router.push("/"),
+    onSuccess: () => {
+      router.push("/");
+      router.refresh();
+    },
     onError: (error) =>
       toast({
         variant: "destructive",
