@@ -43,6 +43,13 @@ services:
       - "traefik.http.routers.service.entrypoints=web"
     depends_on:
       - database
+    environment:
+      - DATABASE_HOST=database.docker-compose
+      - DATABASE_PORT=5432
+      - DATABASE_USER=matchmade
+      - DATABASE_PASSWORD=matchmade
+      - DATABASE_NAME=matchmade
+      - JWT_SECRET=secret
 
   database:
     image: postgres:16.0

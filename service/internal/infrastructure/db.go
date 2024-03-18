@@ -1,9 +1,12 @@
 package infrastructure
 
 import (
+	"fmt"
+	"service/internal/config"
+	"strconv"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"service/internal/config"
 )
 
 var DB *gorm.DB
@@ -14,7 +17,7 @@ func Init() {
 		panic(err)
 	}
 
-	DB, err = gorm.Open(postgres.Open(config.DatabaseDSN), &gorm.Config{})
+	DB, err = gorm.Open(postgres.Open(fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable", config.DatabaseHost, strconv.Itoa(config.DatabasePort), config.DatabaseUser, config.DatabaseName, config.DatabasePassword)), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
