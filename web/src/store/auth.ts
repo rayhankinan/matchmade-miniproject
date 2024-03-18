@@ -4,7 +4,7 @@ import { createStore } from "zustand";
 
 import type JwtPayload from "~/types/jwt-payload";
 
-interface AuthProps {
+export interface AuthProps {
   session: JwtPayload | null;
 }
 
@@ -15,9 +15,9 @@ export interface AuthState extends AuthProps {
 
 export type AuthStore = ReturnType<typeof createAuthStore>;
 
-export const createAuthStore = () =>
+export const createAuthStore = (props: AuthProps) =>
   createStore<AuthState>()((set) => ({
-    session: null,
+    session: props.session,
     updateSessionToMatchCookie: () => {
       // Get the token from the cookie
       const token = Cookies.get("AUTH_TOKEN");

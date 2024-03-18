@@ -6,6 +6,7 @@ import AuthProvider from "~/providers/auth";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
+import { getAuth } from "~/server/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -23,6 +24,8 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const session = getAuth();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -38,7 +41,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ClientProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <AuthProvider session={session}>{children}</AuthProvider>
           </ClientProvider>
         </ThemeProvider>
       </body>
