@@ -1,9 +1,12 @@
 import { Inter } from "next/font/google";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+
+import { Toaster } from "~/components/ui/toaster";
 
 import ClientProvider from "~/providers/client";
 import ThemeProvider from "~/providers/theme";
 import AuthProvider from "~/providers/auth";
-import { getAuth } from "~/server/auth";
+import getAuth from "~/server/auth";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
@@ -41,7 +44,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ClientProvider>
-            <AuthProvider session={session}>{children}</AuthProvider>
+            <AuthProvider session={session}>
+              {children}
+              {process.env.NODE_ENV !== "production" && (
+                <footer className="hidden md:block">
+                  <ReactQueryDevtools initialIsOpen={false} />
+                </footer>
+              )}
+              <Toaster />
+            </AuthProvider>
           </ClientProvider>
         </ThemeProvider>
       </body>

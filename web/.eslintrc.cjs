@@ -1,6 +1,5 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
-  ignorePatterns: ["**/components/ui/*.tsx", "**/lib/*.ts"],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: true,
@@ -38,5 +37,6 @@ const config = {
       },
     ],
   },
+  ignorePatterns: ["**/components/ui/*.tsx", "**/lib/utils.ts"],
 };
 module.exports = config;

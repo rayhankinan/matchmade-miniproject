@@ -1,7 +1,10 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@radix-ui/react-avatar";
+import Link from "next/link";
+
+import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
+
 import useAuthContext from "~/hooks/auth";
 
 export default function Profile() {
@@ -13,7 +16,9 @@ export default function Profile() {
     </Avatar>
   ) : (
     <>
-      <Button variant="outline">Sign in</Button>
+      <Button variant="outline" asChild>
+        <Link href="/login">Sign in</Link>
+      </Button>
       <Button>Sign Up</Button>
     </>
   );

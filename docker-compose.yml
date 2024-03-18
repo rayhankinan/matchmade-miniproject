@@ -23,12 +23,16 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=http://localhost/api
     working_dir: /app
     image: matchmade-miniproject-web
     hostname: web.docker-compose
     labels:
       - "traefik.http.routers.web.rule=Host(`localhost`)"
       - "traefik.http.routers.web.entrypoints=web"
+    depends_on:
+      - reverse-proxy
 
   service:
     platform: "linux/amd64"
@@ -45,6 +49,7 @@ services:
       - "traefik.http.routers.service.middlewares=service-stripprefix"
     depends_on:
       - database
+      - reverse-proxy
     environment:
       - DATABASE_HOST=database.docker-compose
       - DATABASE_PORT=5432
