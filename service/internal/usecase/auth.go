@@ -45,7 +45,7 @@ func (a *AuthUseCase) Login(identifier string, password string) (string, error) 
 		return "", err
 	}
 
-	token, err := utils.GenerateJWT(user.ID)
+	token, err := utils.GenerateJWT(user.ID, user.Email, user.Username)
 	if err != nil {
 		return "", err
 	}

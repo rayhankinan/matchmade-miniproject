@@ -10,12 +10,14 @@ import (
 )
 
 type Claims struct {
-	UserID uuid.UUID `json:"userID"`
+	UserID   uuid.UUID `json:"userID"`
+	Email    string    `json:"email"`
+	Username string    `json:"username"`
 	jwt.RegisteredClaims
 }
 
 // GenerateJWT generates a new JWT token
-func GenerateJWT(userId uuid.UUID) (string, error) {
+func GenerateJWT(userId uuid.UUID, email string, username string) (string, error) {
 	config, err := config.LoadEnvironment()
 	if err != nil {
 		return "", err
@@ -24,7 +26,9 @@ func GenerateJWT(userId uuid.UUID) (string, error) {
 	jwtKey := []byte(config.JWTSecret)
 
 	claims := &Claims{
-		UserID: userId,
+		UserID:   userId,
+		Email:    email,
+		Username: username,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour * 24)),
 		},

@@ -1,21 +1,13 @@
 "use client";
 
-import { useRef } from "react";
-import { createAuthStore, type AuthProps, type AuthStore } from "~/store/auth";
-import AuthContext from "~/context/auth";
+import type JwtPayload from "~/types/jwt-payload";
+import SessionContext from "~/context/auth";
 
-export default function AuthProvider({
+export default function SessionProvider({
   children,
-  ...props
-}: React.PropsWithChildren<AuthProps>) {
-  const storeRef = useRef<AuthStore | null>(null);
-  if (!storeRef.current) {
-    storeRef.current = createAuthStore(props);
-  }
-
+  value,
+}: React.PropsWithChildren<{ value: JwtPayload | null }>) {
   return (
-    <AuthContext.Provider value={storeRef.current}>
-      {children}
-    </AuthContext.Provider>
+    <SessionContext.Provider value={value}>{children}</SessionContext.Provider>
   );
 }

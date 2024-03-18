@@ -48,8 +48,8 @@ services:
       - "traefik.http.middlewares.service-stripprefix.stripprefix.prefixes=/api"
       - "traefik.http.routers.service.middlewares=service-stripprefix"
     depends_on:
-      - database
       - reverse-proxy
+      - database
     environment:
       - DATABASE_HOST=database.docker-compose
       - DATABASE_PORT=5432

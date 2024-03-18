@@ -5,14 +5,14 @@ import Link from "next/link";
 import { Avatar, AvatarFallback } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 
-import useAuthContext from "~/hooks/auth";
+import useSession from "~/components/hooks/auth";
 
 export default function Profile() {
-  const session = useAuthContext((state) => state.session);
+  const session = useSession();
 
   return session !== null ? (
     <Avatar>
-      <AvatarFallback>{session.email}</AvatarFallback>
+      <AvatarFallback>{session.username}</AvatarFallback>
     </Avatar>
   ) : (
     <>

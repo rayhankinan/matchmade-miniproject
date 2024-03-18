@@ -24,20 +24,27 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return echo.NewHTTPError(http.StatusInternalServerError, "Error loading environment variables")
 		}
 
-		parsedToken, _ := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		parsedToken, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 				return nil, echo.NewHTTPError(http.StatusUnauthorized, "Unexpected signing method")
 			}
 			return []byte(config.JWTSecret), nil
 		})
-
-		if claims, ok := parsedToken.Claims.(jwt.MapClaims); ok && parsedToken.Valid {
-			c.Set("userID", claims["email"])
-		} else {
+		if err != nil {
 			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid token")
 		}
 
+		claims, ok := parsedToken.Claims.(jwt.MapClaims)
+		if !ok || !parsedToken.Valid {
+			return echo.NewHTTPError(http.StatusUnauthorized, "Invalid token")
+		}
+
+		c.Set("userID", claims["userID"])
+		c.Set("email", claims["email"])
+		c.Set("username", claims["username"])
+
 		log.Println("User authenticated")
+
 		return next(c)
 	}
 }

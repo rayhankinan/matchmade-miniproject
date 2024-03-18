@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
-import { type AuthStore } from "~/store/auth";
+import type JwtPayload from "~/types/jwt-payload";
 
-const AuthContext = createContext<AuthStore | null>(null);
+const SessionContext = createContext<JwtPayload | null>(null);
 
-export default AuthContext;
+export default SessionContext;

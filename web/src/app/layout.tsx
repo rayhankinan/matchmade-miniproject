@@ -5,8 +5,8 @@ import { Toaster } from "~/components/ui/toaster";
 
 import ClientProvider from "~/providers/client";
 import ThemeProvider from "~/providers/theme";
-import AuthProvider from "~/providers/auth";
-import getAuth from "~/server/auth";
+import SessionProvider from "~/providers/auth";
+import getSession from "~/server/auth";
 import { cn } from "~/lib/utils";
 
 import "~/styles/globals.css";
@@ -27,7 +27,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = getAuth();
+  const session = getSession();
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -44,15 +44,15 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ClientProvider>
-            <AuthProvider session={session}>
+            <SessionProvider value={session}>
               {children}
               {process.env.NODE_ENV !== "production" && (
                 <footer className="hidden md:block">
                   <ReactQueryDevtools initialIsOpen={false} />
                 </footer>
               )}
-              <Toaster />
-            </AuthProvider>
+            </SessionProvider>
+            <Toaster />
           </ClientProvider>
         </ThemeProvider>
       </body>

@@ -19,16 +19,11 @@ import {
 import { Input } from "~/components/ui/input";
 import { useToast } from "~/components/ui/use-toast";
 
-import useAuthContext from "~/hooks/auth";
 import api from "~/client/api";
 
 const formSchema = z.object({
-  email: z.string().email({
-    message: "Invalid email address",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters long",
-  }),
+  identifier: z.string(),
+  password: z.string(),
 });
 
 type LoginFormData = z.infer<typeof formSchema>;
@@ -41,31 +36,22 @@ export default function LoginForm() {
   const { toast } = useToast();
   const router = useRouter();
 
-  const updateSessionToMatchCookie = useAuthContext(
-    (state) => state.updateSessionToMatchCookie,
-  );
-
   const mutation = useMutation({
     mutationFn: async (data: LoginFormData) =>
       await api.post<LoginFormResponse>("/login", data),
-    onSuccess: () => {
-      updateSessionToMatchCookie();
-
-      router.push("/");
-    },
-    onError: (error) => {
+    onSuccess: () => router.push("/"),
+    onError: (error) =>
       toast({
         variant: "destructive",
         title: "An error occurred",
         description: error.message,
-      });
-    },
+      }),
   });
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
@@ -79,19 +65,15 @@ export default function LoginForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="email"
+          name="identifier"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email or Username</FormLabel>
               <FormControl>
-                <Input
-                  {...field}
-                  type="email"
-                  placeholder="someone@example.com"
-                />
+                <Input {...field} type="text" placeholder="username" />
               </FormControl>
               <FormDescription>
-                Enter the email address associated with your account
+                Enter the email address or username associated with your account
               </FormDescription>
               <FormMessage />
             </FormItem>
