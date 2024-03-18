@@ -33,10 +33,11 @@ type LoginFormResponse = {
 };
 
 export default function LoginForm() {
-  const { toast } = useToast();
   const router = useRouter();
 
-  const mutation = useMutation({
+  const { toast } = useToast();
+
+  const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) =>
       await api.post<LoginFormResponse>("/login", data),
     onSuccess: () => router.push("/"),
@@ -57,7 +58,7 @@ export default function LoginForm() {
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
-    mutation.mutate(data);
+    loginMutation.mutate(data);
   };
 
   return (

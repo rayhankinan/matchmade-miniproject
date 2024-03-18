@@ -60,3 +60,9 @@ func (h *AuthHandler) Login(c echo.Context) error {
 
 	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{})
 }
+
+func (h *AuthHandler) Logout(c echo.Context) error {
+	utils.DeleteCookie(c, "AUTH_TOKEN")
+
+	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{})
+}
