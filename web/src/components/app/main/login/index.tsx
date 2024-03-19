@@ -95,7 +95,9 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={loginMutation.isPending}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

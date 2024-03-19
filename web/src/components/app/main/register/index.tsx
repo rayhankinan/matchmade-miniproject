@@ -123,7 +123,9 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={registerMutation.isPending}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

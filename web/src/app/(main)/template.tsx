@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 
 import AppNavbar from "~/components/app/navbar";
+import SearchBar from "~/components/app/main/home/search-bar";
 
 export default function RootTemplate({ children }: React.PropsWithChildren) {
   return (
@@ -11,7 +12,7 @@ export default function RootTemplate({ children }: React.PropsWithChildren) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <AppNavbar />
+      <AppNavbar searchBar={<SearchBar />} displayProfile />
       {children}
     </motion.div>
   );

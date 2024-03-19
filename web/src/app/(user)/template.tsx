@@ -11,7 +11,7 @@ export default function RootTemplate({ children }: React.PropsWithChildren) {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
-      <AppNavbar displayProfile={false} />
+      <AppNavbar />
       {children}
     </motion.div>
   );

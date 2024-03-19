@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=http://localhost/api
+        - NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org
+        - NEXT_PUBLIC_MOVIE_API_TOKEN=${MOVIE_API_TOKEN}
     working_dir: /app
     image: matchmade-miniproject-web
     hostname: web.docker-compose
@@ -56,7 +58,7 @@ services:
       - DATABASE_USER=matchmade
       - DATABASE_PASSWORD=matchmade
       - DATABASE_NAME=matchmade
-      - JWT_SECRET=secret
+      - JWT_SECRET=${JWT_SECRET}
 
   database:
     image: postgres:16.0
@@ -64,7 +66,7 @@ services:
       - database:/var/lib/postgresql/data
     hostname: database.docker-compose
     ports:
-      - "5433:5432"
+      - "5433:5432" # TODO: Remove this line in production
     environment:
       - POSTGRES_USER=matchmade
       - POSTGRES_PASSWORD=matchmade

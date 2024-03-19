@@ -21,7 +21,11 @@ FROM --platform=linux/amd64 node:20-alpine AS builder
 
 # Add server or client variables as an argument - remove if not using environment variables
 ARG NEXT_PUBLIC_API_URL
+ARG NEXT_PUBLIC_MOVIE_API_URL
+ARG NEXT_PUBLIC_MOVIE_API_TOKEN
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_MOVIE_API_URL=$NEXT_PUBLIC_MOVIE_API_URL
+ENV NEXT_PUBLIC_MOVIE_API_TOKEN=$NEXT_PUBLIC_MOVIE_API_TOKEN
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
