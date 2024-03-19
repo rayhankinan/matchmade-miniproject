@@ -2,10 +2,10 @@
 
 import { Fragment, useCallback, useEffect, useRef } from "react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { LoaderIcon } from "lucide-react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { LoadingSpinner } from "~/components/svg/spinner";
 
 import movieApi from "~/client/movie-api";
 
@@ -72,7 +72,7 @@ export default function SearchMovie({ query }: { query: string }) {
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
       {status === "pending" ? (
-        <LoadingSpinner />
+        <LoaderIcon className="h-8 w-8 animate-spin" />
       ) : status === "error" ? (
         <Alert variant="destructive">
           <ExclamationTriangleIcon className="h-4 w-4" />
@@ -92,7 +92,9 @@ export default function SearchMovie({ query }: { query: string }) {
               ))}
             </Fragment>
           ))}
-          {isFetchingNextPage && <LoadingSpinner />}
+          {isFetchingNextPage && (
+            <LoaderIcon className="h-8 w-8 animate-spin" />
+          )}
           <div ref={observerTarget}></div>
         </>
       )}
