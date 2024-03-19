@@ -11,7 +11,7 @@ export default function HomePage({
   const { query } = searchParams;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center">
+    <main className="flex min-h-screen flex-col items-center justify-center gap-12">
       {query ? <SearchMovie query={query} /> : <DiscoverMovie />}
     </main>
   );

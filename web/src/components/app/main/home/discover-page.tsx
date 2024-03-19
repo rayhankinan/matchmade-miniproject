@@ -34,6 +34,7 @@ export default function DiscoverMovie() {
         ? currentResponse.data.page + 1
         : undefined,
   });
+
   const {
     data,
     error,
@@ -82,23 +83,25 @@ export default function DiscoverMovie() {
     );
 
   return (
-    <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-      {data.pages.map((page, i) => (
-        <Fragment key={i}>
-          {page.data.results.map((movie) => (
-            <MoviePreview
-              key={movie.id}
-              id={movie.id}
-              title={movie.title}
-              posterPath={movie.poster_path}
-              overview={movie.overview}
-              releaseDate={movie.release_date}
-            />
-          ))}
-        </Fragment>
-      ))}
+    <>
+      <div className="container flex flex-row flex-wrap items-center justify-center gap-12">
+        {data.pages.map((page, i) => (
+          <Fragment key={i}>
+            {page.data.results.map((movie) => (
+              <MoviePreview
+                key={movie.id}
+                id={movie.id}
+                title={movie.title}
+                posterPath={movie.poster_path}
+                overview={movie.overview}
+                releaseDate={movie.release_date}
+              />
+            ))}
+          </Fragment>
+        ))}
+      </div>
       {isFetchingNextPage && <LoaderIcon className="h-8 w-8 animate-spin" />}
       <div ref={observerTarget}></div>
-    </div>
+    </>
   );
 }

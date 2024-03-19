@@ -66,6 +66,7 @@ export default function RegisterForm() {
       reset();
     },
   });
+
   const { mutate, isPending } = registerMutation;
 
   const onSubmit: SubmitHandler<RegisterFormData> = (data) => mutate(data);
