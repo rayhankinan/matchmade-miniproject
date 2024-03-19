@@ -49,3 +49,30 @@ func (w *WatchlistUseCase) RemoveMovie(movieID uuid.UUID, userID uuid.UUID) erro
 
 	return nil
 }
+
+func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, pageSize int) ([]models.Movie, error) {
+	_, err := w.UserRepo.FindById(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return w.MovieRepo.FindByUserID(userID, title, page, pageSize)
+}
+
+func (w *WatchlistUseCase) GetMovieDetail(movieID uuid.UUID, userID uuid.UUID) (*models.Movie, error) {
+	_, err := w.UserRepo.FindById(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	return w.MovieRepo.FindByID(movieID)
+}
+
+func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, rating int16) error {
+	_, err := w.UserRepo.FindById(userID)
+	if err != nil {
+		return err
+	}
+
+	return w.MovieRepo.UpdateRating(movieID, rating)
+}
