@@ -57,3 +57,13 @@ func (c *GormMovieRepo) UpdateRating(mid uuid.UUID, rating int16) error {
 		})
 	return result.Error
 }
+
+func (c *GormMovieRepo) IsExist(userID uuid.UUID, title string) (bool, error) {
+	var count int64
+	err := c.DB.Model(&models.Movie{}).Where("user_id = ? AND title = ?", userID, title).Count(&count).Error
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}

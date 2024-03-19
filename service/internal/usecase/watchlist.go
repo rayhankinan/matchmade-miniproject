@@ -1,6 +1,7 @@
 package usecase
 
 import (
+	"fmt"
 	"service/internal/models"
 
 	"github.com/google/uuid"
@@ -19,13 +20,21 @@ func NewWatchlistUseCase(movieRepo models.MovieRepository, userRepo models.UserR
 }
 
 func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (models.Movie, error) {
-	movie.MID = uuid.New()
-
 	_, err := w.UserRepo.FindById(userID)
 	if err != nil {
 		return models.Movie{}, err
 	}
 
+	exist, err := w.MovieRepo.IsExist(userID, movie.Title)
+	if err != nil {
+		return models.Movie{}, err
+	}
+
+	if exist {
+		return models.Movie{}, fmt.Errorf("movie already exists in watchlist")
+	}
+
+	movie.MID = uuid.New()
 	movie.UserID = userID
 
 	err = w.MovieRepo.Create(&movie)
@@ -70,6 +79,11 @@ func (w *WatchlistUseCase) GetMovieDetail(movieID uuid.UUID, userID uuid.UUID) (
 
 func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, rating int16) error {
 	_, err := w.UserRepo.FindById(userID)
+	if err != nil {
+		return err
+	}
+
+	_, err = w.MovieRepo.FindByID(movieID)
 	if err != nil {
 		return err
 	}
