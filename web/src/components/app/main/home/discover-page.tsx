@@ -7,6 +7,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
+import MoviePreview from "~/components/app/main/movie/movie-preview";
 import movieApi from "~/client/movie-api";
 
 interface DiscoverMovieResponse {
@@ -17,6 +18,7 @@ interface DiscoverMovieResponse {
     id: number;
     title: string;
     poster_path: string | null;
+    overview: string;
     release_date: string;
   }[];
 }
@@ -82,11 +84,14 @@ export default function DiscoverMovie() {
           {data.pages.map((page, i) => (
             <Fragment key={i}>
               {page.data.results.map((movie) => (
-                <div key={movie.id}>
-                  <p>ID: {movie.id}</p>
-                  <p>Title: {movie.title}</p>
-                  <p>Poster Path: {movie.poster_path}</p>
-                </div>
+                <MoviePreview
+                  key={movie.id}
+                  id={movie.id}
+                  title={movie.title}
+                  posterPath={movie.poster_path}
+                  overview={movie.overview}
+                  releaseDate={movie.release_date}
+                />
               ))}
             </Fragment>
           ))}

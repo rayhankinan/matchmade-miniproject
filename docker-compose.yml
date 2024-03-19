@@ -27,6 +27,7 @@ services:
         - NEXT_PUBLIC_API_URL=http://localhost/api
         - NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org/3
         - NEXT_PUBLIC_MOVIE_API_TOKEN=${MOVIE_API_TOKEN}
+        - NEXT_PUBLIC_MOVIE_IMAGE_URL=https://image.tmdb.org/t/p
     working_dir: /app
     image: matchmade-miniproject-web
     hostname: web.docker-compose

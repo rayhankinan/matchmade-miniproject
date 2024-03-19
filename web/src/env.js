@@ -19,6 +19,7 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: z.string().url(),
     NEXT_PUBLIC_MOVIE_API_URL: z.string().url(),
     NEXT_PUBLIC_MOVIE_API_TOKEN: z.string(),
+    NEXT_PUBLIC_MOVIE_IMAGE_URL: z.string().url(),
     // NEXT_PUBLIC_CLIENTVAR: z.string(),
   },
 
@@ -31,6 +32,7 @@ export const env = createEnv({
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
     NEXT_PUBLIC_MOVIE_API_URL: process.env.NEXT_PUBLIC_MOVIE_API_URL,
     NEXT_PUBLIC_MOVIE_API_TOKEN: process.env.NEXT_PUBLIC_MOVIE_API_TOKEN,
+    NEXT_PUBLIC_MOVIE_IMAGE_URL: process.env.NEXT_PUBLIC_MOVIE_IMAGE_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
