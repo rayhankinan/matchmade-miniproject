@@ -30,7 +30,7 @@ export default function SearchMovie({ query }: { query: string }) {
       ),
     initialPageParam: 1,
     getNextPageParam: (currentResponse) =>
-      currentResponse.data.page !== currentResponse.data.total_pages
+      currentResponse.data.page < currentResponse.data.total_pages
         ? currentResponse.data.page + 1
         : undefined,
   });

@@ -28,7 +28,7 @@ export default function DiscoverMovie() {
       movieApi.get<DiscoverMovieResponse>(`/discover/movie?page=${pageParam}`),
     initialPageParam: 1,
     getNextPageParam: (currentResponse) =>
-      currentResponse.data.page !== currentResponse.data.total_pages
+      currentResponse.data.page < currentResponse.data.total_pages
         ? currentResponse.data.page + 1
         : undefined,
   });
