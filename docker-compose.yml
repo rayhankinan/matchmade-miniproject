@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
       args:
         - NEXT_PUBLIC_API_URL=http://localhost/api
-        - NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org
+        - NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org/3
         - NEXT_PUBLIC_MOVIE_API_TOKEN=${MOVIE_API_TOKEN}
     working_dir: /app
     image: matchmade-miniproject-web

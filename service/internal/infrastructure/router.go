@@ -24,7 +24,7 @@ func CreateRoute(db *gorm.DB) *echo.Echo {
 	userRoute := e.Group("/users")
 	userRoute.POST("/register", userHandler.Register)
 	userRoute.POST("/login", userHandler.Login)
-	userRoute.POST("/logout", userHandler.Logout, middleware.JWTAuthMiddleware)
+	userRoute.POST("/logout", userHandler.Logout)
 
 	movieRoute := e.Group("/movies", middleware.JWTAuthMiddleware)
 	movieRoute.POST("/add", movieHandler.AddMovieToWatchlist, middleware.JWTAuthMiddleware)
