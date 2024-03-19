@@ -11,6 +11,8 @@ import movieApi from "~/client/movie-api";
 
 interface DiscoverMovieResponse {
   page: number;
+  total_pages: number;
+  total_results: number;
   results: {
     id: number;
     title: string;
@@ -25,7 +27,10 @@ export default function DiscoverMovie() {
     queryFn: async ({ pageParam }) =>
       movieApi.get<DiscoverMovieResponse>(`/discover/movie?page=${pageParam}`),
     initialPageParam: 1,
-    getNextPageParam: (currentResponse) => currentResponse.data.page + 1,
+    getNextPageParam: (currentResponse) =>
+      currentResponse.data.page !== currentResponse.data.total_pages
+        ? currentResponse.data.page + 1
+        : undefined,
   });
   const {
     data,

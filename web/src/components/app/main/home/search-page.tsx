@@ -11,6 +11,8 @@ import movieApi from "~/client/movie-api";
 
 interface SearchMovieResponse {
   page: number;
+  total_pages: number;
+  total_results: number;
   results: {
     id: number;
     title: string;
@@ -27,7 +29,10 @@ export default function SearchMovie({ query }: { query: string }) {
         `/search/movie?query=${query}&page=${pageParam}`,
       ),
     initialPageParam: 1,
-    getNextPageParam: (currentResponse) => currentResponse.data.page + 1,
+    getNextPageParam: (currentResponse) =>
+      currentResponse.data.page !== currentResponse.data.total_pages
+        ? currentResponse.data.page + 1
+        : undefined,
   });
   const {
     data,
