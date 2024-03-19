@@ -69,38 +69,36 @@ export default function DiscoverMovie() {
     };
   }, [observerTarget, fetchData]);
 
+  if (status === "pending")
+    return <LoaderIcon className="h-8 w-8 animate-spin" />;
+
+  if (status === "error")
+    return (
+      <Alert variant="destructive">
+        <ExclamationTriangleIcon className="h-4 w-4" />
+        <AlertTitle>Error</AlertTitle>
+        <AlertDescription>{error.message}</AlertDescription>
+      </Alert>
+    );
+
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-      {status === "pending" ? (
-        <LoaderIcon className="h-8 w-8 animate-spin" />
-      ) : status === "error" ? (
-        <Alert variant="destructive">
-          <ExclamationTriangleIcon className="h-4 w-4" />
-          <AlertTitle>Error</AlertTitle>
-          <AlertDescription>{error.message}</AlertDescription>
-        </Alert>
-      ) : (
-        <>
-          {data.pages.map((page, i) => (
-            <Fragment key={i}>
-              {page.data.results.map((movie) => (
-                <MoviePreview
-                  key={movie.id}
-                  id={movie.id}
-                  title={movie.title}
-                  posterPath={movie.poster_path}
-                  overview={movie.overview}
-                  releaseDate={movie.release_date}
-                />
-              ))}
-            </Fragment>
+      {data.pages.map((page, i) => (
+        <Fragment key={i}>
+          {page.data.results.map((movie) => (
+            <MoviePreview
+              key={movie.id}
+              id={movie.id}
+              title={movie.title}
+              posterPath={movie.poster_path}
+              overview={movie.overview}
+              releaseDate={movie.release_date}
+            />
           ))}
-          {isFetchingNextPage && (
-            <LoaderIcon className="h-8 w-8 animate-spin" />
-          )}
-          <div ref={observerTarget}></div>
-        </>
-      )}
+        </Fragment>
+      ))}
+      {isFetchingNextPage && <LoaderIcon className="h-8 w-8 animate-spin" />}
+      <div ref={observerTarget}></div>
     </div>
   );
 }
