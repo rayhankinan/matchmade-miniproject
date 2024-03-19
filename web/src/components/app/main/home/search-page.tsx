@@ -1,9 +1,12 @@
 "use client";
 
 import { Fragment } from "react";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
+import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
+import { LoadingSpinner } from "~/components/svg/spinner";
 
 import movieApi from "~/client/movie-api";
 
@@ -13,6 +16,7 @@ interface SearchMovieResponse {
     id: number;
     title: string;
     poster_path: string | null;
+    release_date: string;
   }[];
 }
 
@@ -31,40 +35,47 @@ export default function SearchMovie({ query }: { query: string }) {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetching,
+    // isFetching,
     isFetchingNextPage,
     status,
   } = searchMovieQuery;
 
-  if (status === "pending") return <div>Loading...</div>;
-
-  if (status === "error") return <div>Error: {error.message}</div>;
-
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-      <h1>Search Results for: {query}</h1>
-      {data.pages.map((page, i) => (
-        <Fragment key={i}>
-          {page.data.results.map((movie) => (
-            <div key={movie.id}>
-              <p>ID: {movie.id}</p>
-              <p>Title: {movie.title}</p>
-              <p>Poster Path: {movie.poster_path}</p>
-            </div>
+      {status === "pending" ? (
+        <LoadingSpinner />
+      ) : status === "error" ? (
+        <Alert variant="destructive">
+          <ExclamationTriangleIcon className="h-4 w-4" />
+          <AlertTitle>Error</AlertTitle>
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      ) : (
+        <>
+          {data.pages.map((page, i) => (
+            <Fragment key={i}>
+              {page.data.results.map((movie) => (
+                <div key={movie.id}>
+                  <p>ID: {movie.id}</p>
+                  <p>Title: {movie.title}</p>
+                  <p>Poster Path: {movie.poster_path}</p>
+                </div>
+              ))}
+            </Fragment>
           ))}
-        </Fragment>
-      ))}
-      <Button
-        onClick={() => fetchNextPage()}
-        disabled={!hasNextPage || isFetchingNextPage}
-      >
-        {isFetchingNextPage
-          ? "Loading more..."
-          : hasNextPage
-            ? "Load More"
-            : "Nothing more to load"}
-      </Button>
-      <div>{isFetching && !isFetchingNextPage ? "Fetching..." : null}</div>
+          <Button
+            onClick={() => fetchNextPage()}
+            disabled={!hasNextPage || isFetchingNextPage}
+          >
+            {isFetchingNextPage
+              ? "Loading more..."
+              : hasNextPage
+                ? "Load More"
+                : "Nothing more to load"}
+          </Button>
+          {isFetchingNextPage && <LoadingSpinner />}
+        </>
+      )}
     </div>
   );
 }
