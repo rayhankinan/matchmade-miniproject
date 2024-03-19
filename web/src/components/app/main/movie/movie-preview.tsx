@@ -12,30 +12,26 @@ import {
 
 import { env } from "~/env";
 
-interface MoviePreviewProps {
-  id: number;
-  title: string;
-  posterPath: string | null;
-  overview: string;
-  releaseDate: string;
-}
-
 export default function MoviePreview({
   id,
   title,
   posterPath,
   overview,
   releaseDate,
-}: MoviePreviewProps) {
+}: {
+  id: number;
+  title: string;
+  posterPath: string | null;
+  overview: string;
+  releaseDate: string;
+}) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
 
   const onClick = () => {
     const params = new URLSearchParams(searchParams);
-
     params.set("jbv", id.toString());
-
     router.push(`${pathname}?${params.toString()}`);
   };
 
