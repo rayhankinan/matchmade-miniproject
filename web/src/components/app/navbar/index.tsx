@@ -9,7 +9,7 @@ export default function AppNavbar({
   displayProfile?: boolean;
 }) {
   return (
-    <header className="fixed top-0 flex h-20 w-full shrink-0 items-center px-4 md:px-6">
+    <header className="fixed top-0 z-10 flex h-20 w-full shrink-0 items-center px-4 md:px-6">
       <div className="ml-auto flex gap-2">
         <ModeToggle />
         {searchBar}

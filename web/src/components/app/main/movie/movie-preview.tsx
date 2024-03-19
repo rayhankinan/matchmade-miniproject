@@ -29,15 +29,16 @@ export default function MoviePreview({
     <HoverCard>
       <HoverCardTrigger asChild>
         {posterPath ? (
-          <Image
-            src={`${env.NEXT_PUBLIC_MOVIE_IMAGE_URL}/w500${posterPath}`}
-            blurDataURL={`${env.NEXT_PUBLIC_MOVIE_IMAGE_URL}/w92${posterPath}`}
-            placeholder="blur"
-            alt={title}
-            width={200}
-            height={300}
-            className="h-auto w-auto cursor-pointer rounded-sm"
-          />
+          <div className="relative h-[375px] w-[250px] cursor-pointer overflow-hidden">
+            <Image
+              src={`${env.NEXT_PUBLIC_MOVIE_IMAGE_URL}/w500${posterPath}`}
+              alt={title}
+              fill
+              sizes="(min-width: 500px) 50vw, 100vw"
+              className="rounded-sm object-cover"
+              priority
+            />
+          </div>
         ) : (
           <div className="h-[375px] w-[250px] cursor-pointer rounded-sm bg-gray-300 bg-[url('/images/placeholder.svg')] bg-center bg-no-repeat"></div>
         )}
