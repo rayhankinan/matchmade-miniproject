@@ -5,10 +5,10 @@ export default function HomePage({
   searchParams,
 }: {
   searchParams: {
-    query?: string;
+    q?: string;
   };
 }) {
-  const { query } = searchParams;
+  const { q: query } = searchParams;
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12">

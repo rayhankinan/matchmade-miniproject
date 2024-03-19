@@ -30,10 +30,11 @@ export default function SearchBar() {
   const form = useForm<SearchFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      term: searchParams.get("query") ?? "",
+      term: searchParams.get("q") ?? "",
     },
     mode: "onBlur",
   });
+
   const { handleSubmit, watch, control } = form;
 
   const onSubmit: SubmitHandler<SearchFormData> = (data) => {
@@ -41,9 +42,9 @@ export default function SearchBar() {
     const params = new URLSearchParams(searchParams);
 
     if (term) {
-      params.set("query", term);
+      params.set("q", term);
     } else {
-      params.delete("query");
+      params.delete("q");
     }
 
     router.replace(`${pathname}?${params.toString()}`);

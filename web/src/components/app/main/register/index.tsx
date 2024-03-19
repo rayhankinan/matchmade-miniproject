@@ -48,6 +48,7 @@ export default function RegisterForm() {
     },
     mode: "onBlur",
   });
+
   const { handleSubmit, reset, control } = form;
 
   const registerMutation = useMutation({
