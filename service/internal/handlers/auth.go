@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"service/internal/models"
+	"service/internal/types"
 	"service/internal/usecase"
 	"service/internal/utils"
 
@@ -22,51 +23,54 @@ func NewAuthHandler(authUseAuthUseCase *usecase.AuthUseCase) *AuthHandler {
 }
 
 func (h *AuthHandler) Register(c echo.Context) error {
-	var user models.User
-	err := c.Bind(&user)
+	var req types.RegisterRequest
+	err := c.Bind(&req)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
-	user, err = h.AuthUseCase.Register(user)
+	user := models.User{
+		Email:    req.Email,
+		Username: req.Username,
+		Password: req.Password,
+	}
+
+	res, err := h.AuthUseCase.Register(user)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Internal server error: " + err.Error()})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Internal server error: " + err.Error()})
 	}
 
 	log.Println("User registered successfully")
 
-	return utils.SendResponse(c, http.StatusCreated, utils.SuccessResponse{Data: user})
+	return utils.SendResponse(c, http.StatusCreated, types.SuccessResponse{Data: res})
 }
 
 func (h *AuthHandler) Login(c echo.Context) error {
-	var LoginRequest struct {
-		Identifier string `json:"identifier"`
-		Password   string `json:"password"`
-	}
+	var req types.LoginRequest
 
-	err := c.Bind(&LoginRequest)
+	err := c.Bind(&req)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
-	token, err := h.AuthUseCase.Login(LoginRequest.Identifier, LoginRequest.Password)
+	token, err := h.AuthUseCase.Login(req.Identifier, req.Password)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Invalid credentials"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Invalid credentials"})
 	}
 
 	log.Println("User logged in successfully")
 
 	utils.SetCookie(c, "AUTH_TOKEN", token)
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{})
 }
 
 func (h *AuthHandler) Logout(c echo.Context) error {
 	utils.DeleteCookie(c, "AUTH_TOKEN")
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{})
 }

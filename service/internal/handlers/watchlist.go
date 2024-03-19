@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 
+	"service/internal/types"
 	"service/internal/usecase"
 	"service/internal/utils"
 
@@ -23,29 +24,29 @@ func NewWatchlistHandler(watchlistUseCase *usecase.WatchlistUseCase) *WatchlistH
 }
 
 func (h *WatchlistHandler) AddMovieToWatchlist(c echo.Context) error {
-	var MovieRequest utils.MovieRequest
-	err := c.Bind(&MovieRequest)
+	var req types.MovieRequest
+	err := c.Bind(&req)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
-	movie, _ := MovieRequest.ToMovie(UserID)
+	movie, _ := req.ToMovie(UserID)
 
 	movie, err = h.WatchlistUseCase.AddMovie(movie, UserID)
 	if err != nil {
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to add movie to watchlist"})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to add movie to watchlist"})
 	}
 
 	log.Println("Movie added to watchlist successfully")
 
-	return utils.SendResponse(c, http.StatusCreated, utils.SuccessResponse{Data: movie})
+	return utils.SendResponse(c, http.StatusCreated, types.SuccessResponse{Data: movie})
 }
 
 func (h *WatchlistHandler) RemoveMovieFromWatchlist(c echo.Context) error {
@@ -53,25 +54,25 @@ func (h *WatchlistHandler) RemoveMovieFromWatchlist(c echo.Context) error {
 	MovieID, err := uuid.Parse(movieID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid movie ID"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
 	err = h.WatchlistUseCase.RemoveMovie(MovieID, UserID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to remove movie from watchlist"})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to remove movie from watchlist"})
 	}
 
 	log.Println("Movie removed from watchlist successfully")
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{Data: "Movie removed from watchlist"})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: "Movie removed from watchlist"})
 }
 
 func (h *WatchlistHandler) GetMovies(c echo.Context) error {
@@ -93,16 +94,16 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
 	movies, err := h.WatchlistUseCase.GetMovies(UserID, title, page, pageSize)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to get movies from watchlist"})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to get movies from watchlist"})
 	}
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{Data: movies})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: movies})
 }
 
 func (h *WatchlistHandler) GetMovieDetail(c echo.Context) error {
@@ -110,23 +111,23 @@ func (h *WatchlistHandler) GetMovieDetail(c echo.Context) error {
 	MovieID, err := uuid.Parse(movieID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid movie ID"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
 	movie, err := h.WatchlistUseCase.GetMovieDetail(MovieID, UserID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to get movie from watchlist"})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to get movie from watchlist"})
 	}
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{Data: movie})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: movie})
 }
 
 func (h *WatchlistHandler) GiveRating(c echo.Context) error {
@@ -134,33 +135,31 @@ func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 	MovieID, err := uuid.Parse(movieID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid movie ID"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
 	}
 
 	userID := c.Get("userID").(string)
 	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, utils.ErrorResponse{Message: "Not authorized to perform this action"})
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
-	var RatingReq struct {
-		Rating int16 `json:"rating"`
-	}
+	var req types.RatingRequest
 
-	err = c.Bind(&RatingReq)
+	err = c.Bind(&req)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, utils.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
-	err = h.WatchlistUseCase.GiveRating(MovieID, UserID, RatingReq.Rating)
+	err = h.WatchlistUseCase.GiveRating(MovieID, UserID, req.Rating)
 	if err != nil {
 		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, utils.ErrorResponse{Message: "Failed to give rating to movie"})
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to give rating to movie"})
 	}
 
 	log.Println("Rating given to movie successfully")
 
-	return utils.SendResponse(c, http.StatusOK, utils.SuccessResponse{Data: "Rating given to movie successfully"})
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: "Rating given to movie successfully"})
 }
