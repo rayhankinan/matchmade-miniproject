@@ -36,6 +36,7 @@ export default function Profile() {
         description: error.message,
       }),
   });
+  const { mutate } = logoutMutation;
 
   if (!session)
     return (
@@ -61,9 +62,7 @@ export default function Profile() {
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => logoutMutation.mutate()}>
-          Log Out
-        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => mutate()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

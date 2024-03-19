@@ -66,9 +66,9 @@ export default function RegisterForm() {
       reset();
     },
   });
+  const { mutate, isPending } = registerMutation;
 
-  const onSubmit: SubmitHandler<RegisterFormData> = (data) =>
-    registerMutation.mutate(data);
+  const onSubmit: SubmitHandler<RegisterFormData> = (data) => mutate(data);
 
   return (
     <Form {...form}>
@@ -125,7 +125,7 @@ export default function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={registerMutation.isPending}>
+        <Button type="submit" disabled={isPending}>
           Submit
         </Button>
       </form>

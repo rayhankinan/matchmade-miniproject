@@ -60,9 +60,9 @@ export default function LoginForm() {
       reset();
     },
   });
+  const { mutate, isPending } = loginMutation;
 
-  const onSubmit: SubmitHandler<LoginFormData> = (data) =>
-    loginMutation.mutate(data);
+  const onSubmit: SubmitHandler<LoginFormData> = (data) => mutate(data);
 
   return (
     <Form {...form}>
@@ -97,7 +97,7 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={loginMutation.isPending}>
+        <Button type="submit" disabled={isPending}>
           Submit
         </Button>
       </form>
