@@ -46,7 +46,9 @@ export default function RegisterForm() {
       username: "",
       password: "",
     },
+    mode: "onBlur",
   });
+  const { handleSubmit, reset, control } = form;
 
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterFormData) =>
@@ -61,7 +63,7 @@ export default function RegisterForm() {
         description: error.message,
       });
 
-      form.reset();
+      reset();
     },
   });
 
@@ -70,9 +72,9 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <FormField
-          control={form.control}
+          control={control}
           name="email"
           render={({ field }) => (
             <FormItem>
@@ -92,7 +94,7 @@ export default function RegisterForm() {
           )}
         />
         <FormField
-          control={form.control}
+          control={control}
           name="username"
           render={({ field }) => (
             <FormItem>
@@ -108,7 +110,7 @@ export default function RegisterForm() {
           )}
         />
         <FormField
-          control={form.control}
+          control={control}
           name="password"
           render={({ field }) => (
             <FormItem>

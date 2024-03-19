@@ -39,7 +39,9 @@ export default function LoginForm() {
       identifier: "",
       password: "",
     },
+    mode: "onBlur",
   });
+  const { handleSubmit, reset, control } = form;
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginFormData) =>
@@ -55,7 +57,7 @@ export default function LoginForm() {
         description: error.message,
       });
 
-      form.reset();
+      reset();
     },
   });
 
@@ -64,9 +66,9 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
         <FormField
-          control={form.control}
+          control={control}
           name="identifier"
           render={({ field }) => (
             <FormItem>
@@ -82,7 +84,7 @@ export default function LoginForm() {
           )}
         />
         <FormField
-          control={form.control}
+          control={control}
           name="password"
           render={({ field }) => (
             <FormItem>
