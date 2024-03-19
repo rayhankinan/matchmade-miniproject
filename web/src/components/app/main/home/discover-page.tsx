@@ -1,11 +1,10 @@
 "use client";
 
-import { Fragment } from "react";
+import { Fragment, useCallback, useEffect, useRef } from "react";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
-import { Button } from "~/components/ui/button";
 import { LoadingSpinner } from "~/components/svg/spinner";
 
 import movieApi from "~/client/movie-api";
@@ -33,10 +32,35 @@ export default function DiscoverMovie() {
     error,
     fetchNextPage,
     hasNextPage,
-    // isFetching,
+    isFetching,
     isFetchingNextPage,
     status,
   } = discoverMovieQuery;
+
+  const observerTarget = useRef<HTMLDivElement>(null);
+
+  const fetchData = useCallback(async () => {
+    if (isFetching || !hasNextPage) return;
+
+    await fetchNextPage();
+  }, [isFetching, hasNextPage, fetchNextPage]);
+
+  useEffect(() => {
+    const currentTarget = observerTarget.current;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0] && entries[0].isIntersecting) void fetchData();
+      },
+      { threshold: 1 },
+    );
+
+    if (currentTarget) observer.observe(currentTarget);
+
+    return () => {
+      if (currentTarget) observer.unobserve(currentTarget);
+    };
+  }, [observerTarget, fetchData]);
 
   return (
     <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
@@ -61,17 +85,8 @@ export default function DiscoverMovie() {
               ))}
             </Fragment>
           ))}
-          <Button
-            onClick={() => fetchNextPage()}
-            disabled={!hasNextPage || isFetchingNextPage}
-          >
-            {isFetchingNextPage
-              ? "Loading more..."
-              : hasNextPage
-                ? "Load More"
-                : "Nothing more to load"}
-          </Button>
           {isFetchingNextPage && <LoadingSpinner />}
+          <div ref={observerTarget}></div>
         </>
       )}
     </div>
