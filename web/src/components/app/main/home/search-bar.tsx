@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedCallback } from "use-debounce";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,21 +36,18 @@ export default function SearchBar() {
   });
   const { handleSubmit, watch, control } = form;
 
-  const onSubmit: SubmitHandler<SearchFormData> = useCallback(
-    (data) => {
-      const term = data.term;
-      const params = new URLSearchParams(searchParams);
+  const onSubmit: SubmitHandler<SearchFormData> = (data) => {
+    const term = data.term;
+    const params = new URLSearchParams(searchParams);
 
-      if (term) {
-        params.set("query", term);
-      } else {
-        params.delete("query");
-      }
+    if (term) {
+      params.set("query", term);
+    } else {
+      params.delete("query");
+    }
 
-      router.replace(`${pathname}?${params.toString()}`);
-    },
-    [searchParams, pathname, router],
-  );
+    router.replace(`${pathname}?${params.toString()}`);
+  };
 
   const onDebouncedChange = useDebouncedCallback(
     () => void handleSubmit(onSubmit)(),
