@@ -12,7 +12,7 @@ interface DiscoverMovieResponse {
   results: {
     id: number;
     title: string;
-    poster_path: string;
+    poster_path: string | null;
   }[];
 }
 
