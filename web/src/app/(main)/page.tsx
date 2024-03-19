@@ -14,7 +14,16 @@ export default function HomePage({
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12">
-      {query ? <SearchMovie query={query} /> : <DiscoverMovie />}
+      {query ? (
+        <h1 className="pt-20 text-2xl font-bold">
+          Search results for &quot;{query}&quot;
+        </h1>
+      ) : (
+        <h1 className="pt-20 text-5xl font-bold">Discover Movies</h1>
+      )}
+      <div className="flex min-h-screen flex-col items-center justify-center">
+        {query ? <SearchMovie query={query} /> : <DiscoverMovie />}
+      </div>
       <MovieDialog id={id} />
     </main>
   );

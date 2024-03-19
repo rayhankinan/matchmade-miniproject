@@ -79,7 +79,7 @@ export default function LoginForm() {
                 <Input {...field} type="text" placeholder="username" />
               </FormControl>
               <FormDescription>
-                Enter the email address or username associated with your account
+                Enter the email address or username
               </FormDescription>
               <FormMessage />
             </FormItem>
