@@ -9,6 +9,6 @@ type RegisterRequest struct {
 
 // LoginRequest represents the data needed for a user to log in
 type LoginRequest struct {
-	Identifier string `json:"identifier" validate:"required,identifier"`
+	Identifier string `json:"identifier" validate:"required"`
 	Password   string `json:"password" validate:"required"`
 }

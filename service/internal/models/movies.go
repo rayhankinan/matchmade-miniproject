@@ -10,7 +10,7 @@ import (
 type Movie struct {
 	MID         uuid.UUID `gorm:"primaryKey;type:uuid;default:uuid_generate_v4()"`
 	UserID      uuid.UUID `gorm:"not null"`
-	Title       string    `gorm:"uniqueIndex;not null"`
+	Title       string    `gorm:"not null"`
 	Image       sql.NullString
 	ReleaseDate string
 	Summary     string
@@ -20,6 +20,8 @@ type Movie struct {
 	UpdatedAt   time.Time
 
 	User User `gorm:"foreignKey:UserID;references:UID"`
+
+	_ struct{} `gorm:"uniqueIndex:idx_user_title"`
 }
 
 type MovieRepository interface {

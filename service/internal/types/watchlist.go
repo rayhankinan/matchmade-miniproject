@@ -17,7 +17,7 @@ type MovieRequest struct {
 }
 
 type RatingRequest struct {
-	Rating int16 `json:"rating"`
+	Rating int16 `json:"rating" validate:"required,gte=1,lte=5"`
 }
 
 func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {

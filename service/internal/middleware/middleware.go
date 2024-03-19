@@ -45,7 +45,7 @@ func JWTAuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Set("email", claims["email"])
 		c.Set("username", claims["username"])
 
-		log.Println("User authenticated")
+		log.Println("User", claims["email"], "authenticated")
 
 		return next(c)
 	}

@@ -9,6 +9,7 @@ import (
 	"service/internal/usecase"
 	"service/internal/utils"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 )
 
@@ -30,6 +31,13 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
+	validate := validator.New()
+	err = validate.Struct(req)
+	if err != nil {
+		log.Println(err)
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+	}
+
 	user := models.User{
 		Email:    req.Email,
 		Username: req.Username,
@@ -42,7 +50,7 @@ func (h *AuthHandler) Register(c echo.Context) error {
 		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Internal server error: " + err.Error()})
 	}
 
-	log.Println("User registered successfully")
+	log.Println("User", req.Email, "registered successfully")
 
 	return utils.SendResponse(c, http.StatusCreated, types.SuccessResponse{Data: res})
 }
@@ -56,13 +64,20 @@ func (h *AuthHandler) Login(c echo.Context) error {
 		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
+	validate := validator.New()
+	err = validate.Struct(req)
+	if err != nil {
+		log.Println(err)
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
+	}
+
 	token, err := h.AuthUseCase.Login(req.Identifier, req.Password)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Invalid credentials"})
 	}
 
-	log.Println("User logged in successfully")
+	log.Println("User", req.Identifier, "logged in successfully")
 
 	utils.SetCookie(c, "AUTH_TOKEN", token)
 
