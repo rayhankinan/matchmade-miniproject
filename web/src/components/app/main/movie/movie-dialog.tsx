@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { CalendarIcon } from "lucide-react";
@@ -16,6 +15,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogTrigger,
 } from "~/components/ui/dialog";
 
 import Spinner from "~/components/app/icon/spinner";
@@ -32,10 +32,11 @@ interface MovieDetailResponse {
   }[];
 }
 
-export default function MovieDialog({ id }: { id: string | undefined }) {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const router = useRouter();
+export default function MovieDialog({
+  id,
+  children,
+}: React.PropsWithChildren<{ id: number }>) {
+  const [open, setOpen] = useState(false);
 
   const detailQuery = useQuery({
     queryKey: ["movie-detail", id],
@@ -43,33 +44,14 @@ export default function MovieDialog({ id }: { id: string | undefined }) {
       movieApi.get<MovieDetailResponse>(
         `/movie/${id}?append_to_response=videos`,
       ),
-    enabled: id !== undefined,
+    enabled: open,
   });
 
   const { data, error, status } = detailQuery;
 
-  const [isOpen, setIsOpen] = useState(false);
-
-  const onOpenChange = useCallback(
-    (open: boolean) => {
-      // Remove the jbv query param when the dialog is closed
-      if (!open) {
-        const params = new URLSearchParams(searchParams);
-        params.delete("jbv");
-        router.push(`${pathname}?${params.toString()}`);
-      }
-
-      setIsOpen(open);
-    },
-    [pathname, router, searchParams],
-  );
-
-  useEffect(() => {
-    if (id !== undefined) setIsOpen(true);
-  }, [id]);
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         {status === "pending" ? (
           <div className="flex items-center justify-center">

@@ -17,8 +17,6 @@ interface SearchMovieResponse {
   results: {
     id: number;
     title: string;
-    overview: string;
-    release_date: string;
     poster_path: string | null;
   }[];
 }
@@ -91,11 +89,11 @@ export default function SearchMovie({ query }: { query: string }) {
             {page.data.results.map((movie) => (
               <MoviePreview
                 key={movie.id}
-                id={movie.id}
-                title={movie.title}
-                posterPath={movie.poster_path}
-                overview={movie.overview}
-                releaseDate={movie.release_date}
+                data={{
+                  id: movie.id,
+                  title: movie.title,
+                  posterPath: movie.poster_path,
+                }}
               />
             ))}
           </Fragment>
