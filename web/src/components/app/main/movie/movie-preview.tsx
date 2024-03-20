@@ -15,7 +15,7 @@ export default function MoviePreview({
   return (
     <MovieDialog id={id}>
       {posterPath ? (
-        <div className="relative h-[375px] w-[250px] cursor-pointer overflow-hidden">
+        <div className="relative h-[375px] w-[250px] cursor-pointer overflow-hidden transition-all hover:scale-[1.05] hover:shadow-md">
           <Image
             src={`${env.NEXT_PUBLIC_MOVIE_IMAGE_URL}/w500${posterPath}`}
             alt={title}
@@ -26,7 +26,7 @@ export default function MoviePreview({
           />
         </div>
       ) : (
-        <div className="h-[375px] w-[250px] cursor-pointer rounded-sm bg-gray-300 bg-[url('/images/placeholder.svg')] bg-center bg-no-repeat"></div>
+        <div className="h-[375px] w-[250px] cursor-pointer rounded-sm bg-gray-300 bg-[url('/images/placeholder.svg')] bg-center bg-no-repeat transition-all hover:scale-[1.05] hover:shadow-md"></div>
       )}
     </MovieDialog>
   );
