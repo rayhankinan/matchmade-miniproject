@@ -1,9 +1,9 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { LoaderIcon } from "lucide-react";
-import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
@@ -17,9 +17,9 @@ interface DiscoverMovieResponse {
   results: {
     id: number;
     title: string;
-    poster_path: string | null;
     overview: string;
     release_date: string;
+    poster_path: string | null;
   }[];
 }
 
@@ -85,8 +85,8 @@ export default function DiscoverMovie() {
   return (
     <>
       <div className="container flex flex-row flex-wrap items-center justify-center gap-12">
-        {data.pages.map((page, i) => (
-          <Fragment key={i}>
+        {data.pages.map((page, index) => (
+          <Fragment key={index}>
             {page.data.results.map((movie) => (
               <MoviePreview
                 key={movie.id}
