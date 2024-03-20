@@ -98,22 +98,27 @@ export default function MovieDialog({
               </div>
             </DialogHeader>
             {data.data.videos.results.length > 0 && (
-              <Carousel>
-                <CarouselContent>
-                  {data.data.videos.results.map((video) => (
-                    <CarouselItem key={video.key}>
-                      <MovieTrailer
-                        data={{
-                          site: video.site,
-                          key: video.key,
-                        }}
-                      />
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
+              <div className="flex flex-col items-center justify-center">
+                <Carousel className="w-full max-w-sm">
+                  <CarouselContent>
+                    {data.data.videos.results.map((video) => (
+                      <CarouselItem
+                        key={video.key}
+                        className="flex flex-col items-center justify-center"
+                      >
+                        <MovieTrailer
+                          data={{
+                            site: video.site,
+                            key: video.key,
+                          }}
+                        />
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              </div>
             )}
             <DialogFooter className="sm:justify-start">
               <DialogClose asChild>

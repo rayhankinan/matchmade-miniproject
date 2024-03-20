@@ -36,9 +36,10 @@ export default function MovieTrailer({
   }, []);
 
   return (
-    <div ref={observerTarget} className="container h-full w-full">
+    <div ref={observerTarget}>
       {load ? (
         <ReactPlayer
+          className="w-full max-w-sm"
           url={
             site === "YouTube"
               ? `${env.NEXT_PUBLIC_YOUTUBE_VIDEO_URL}?v=${key}`
