@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import ReactPlayer from "react-player";
 
 import Spinner from "~/components/app/icon/spinner";
 import { env } from "~/env";
 
 export default function MovieTrailer({
-  data: { name, site, key },
+  data: { site, key },
 }: {
   data: {
-    name: string;
     site: "YouTube" | "Vimeo";
     key: string;
   };
@@ -36,14 +36,11 @@ export default function MovieTrailer({
   }, []);
 
   return (
-    <div ref={observerTarget} className="container mx-auto size-fit">
+    <div ref={observerTarget} className="container h-full w-full">
       {load ? (
-        <iframe
-          src={`${site === "YouTube" ? env.NEXT_PUBLIC_YOUTUBE_VIDEO_URL : env.NEXT_PUBLIC_VIMEO_VIDEO_URL}/${key}`}
-          title={name}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
+        <ReactPlayer
+          url={`${site === "YouTube" ? env.NEXT_PUBLIC_YOUTUBE_VIDEO_URL : env.NEXT_PUBLIC_VIMEO_VIDEO_URL}/${key}`}
+        />
       ) : (
         <Spinner />
       )}

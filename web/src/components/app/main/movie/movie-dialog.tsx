@@ -36,7 +36,6 @@ interface MovieDetailResponse {
   release_date: string;
   videos: {
     results: {
-      name: string;
       site: "YouTube" | "Vimeo";
       key: string;
     }[];
@@ -98,23 +97,24 @@ export default function MovieDialog({
                 </span>
               </div>
             </DialogHeader>
-            <Carousel>
-              <CarouselContent>
-                {data.data.videos.results.map((video) => (
-                  <CarouselItem key={video.key}>
-                    <MovieTrailer
-                      data={{
-                        name: video.name,
-                        site: video.site,
-                        key: video.key,
-                      }}
-                    />
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            {data.data.videos.results.length > 0 && (
+              <Carousel>
+                <CarouselContent>
+                  {data.data.videos.results.map((video) => (
+                    <CarouselItem key={video.key}>
+                      <MovieTrailer
+                        data={{
+                          site: video.site,
+                          key: video.key,
+                        }}
+                      />
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            )}
             <DialogFooter className="sm:justify-start">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
