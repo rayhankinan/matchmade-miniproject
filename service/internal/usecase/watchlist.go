@@ -9,22 +9,15 @@ import (
 
 type WatchlistUseCase struct {
 	MovieRepo models.MovieRepository
-	UserRepo  models.UserRepository
 }
 
-func NewWatchlistUseCase(movieRepo models.MovieRepository, userRepo models.UserRepository) *WatchlistUseCase {
+func NewWatchlistUseCase(movieRepo models.MovieRepository) *WatchlistUseCase {
 	return &WatchlistUseCase{
 		MovieRepo: movieRepo,
-		UserRepo:  userRepo,
 	}
 }
 
 func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (models.Movie, error) {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return models.Movie{}, err
-	}
-
 	exist, err := w.MovieRepo.IsExist(userID, movie.MovieID)
 	if err != nil {
 		return models.Movie{}, err
@@ -46,12 +39,7 @@ func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (model
 }
 
 func (w *WatchlistUseCase) RemoveMovie(movieID uuid.UUID, userID uuid.UUID) error {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return err
-	}
-
-	err = w.MovieRepo.Delete(movieID)
+	err := w.MovieRepo.Delete(movieID)
 	if err != nil {
 		return err
 	}
@@ -60,30 +48,15 @@ func (w *WatchlistUseCase) RemoveMovie(movieID uuid.UUID, userID uuid.UUID) erro
 }
 
 func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, pageSize int) ([]models.Movie, error) {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return nil, err
-	}
-
 	return w.MovieRepo.FindByUserID(userID, title, page, pageSize)
 }
 
 func (w *WatchlistUseCase) GetMovieDetail(movieID uuid.UUID, userID uuid.UUID) (*models.Movie, error) {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return nil, err
-	}
-
 	return w.MovieRepo.FindByID(movieID)
 }
 
 func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, rating int16) error {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return err
-	}
-
-	_, err = w.MovieRepo.FindByID(movieID)
+	_, err := w.MovieRepo.FindByID(movieID)
 	if err != nil {
 		return err
 	}
@@ -92,10 +65,5 @@ func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, ratin
 }
 
 func (w *WatchlistUseCase) IsExist(userID uuid.UUID, movieID string) (bool, error) {
-	_, err := w.UserRepo.FindById(userID)
-	if err != nil {
-		return false, err
-	}
-
 	return w.MovieRepo.IsExist(userID, movieID)
 }

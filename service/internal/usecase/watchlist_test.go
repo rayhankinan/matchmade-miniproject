@@ -3,7 +3,6 @@ package usecase
 import (
 	"service/internal/models"
 	"service/internal/repositories/mocks/movie"
-	"service/internal/repositories/mocks/user"
 	"testing"
 	"time"
 
@@ -14,8 +13,7 @@ import (
 
 func TestAddMovie(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 
 	userID := uuid.New()
 	now := time.Now()
@@ -32,7 +30,6 @@ func TestAddMovie(t *testing.T) {
 	}
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("IsExist", userID, testMovie.MovieID).Return(false, nil)
 	mockMovieRepo.On("Create", mock.AnythingOfType("*models.Movie")).Return(nil)
 
@@ -43,18 +40,15 @@ func TestAddMovie(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, testMovie.Title, result.Title)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
 
 func TestRemoveMovie(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
 	movieID := uuid.New()
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("Delete", movieID).Return(nil)
 
 	// Execute the method under test
@@ -63,13 +57,11 @@ func TestRemoveMovie(t *testing.T) {
 	// Assertions
 	assert.NoError(t, err)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
 
 func TestGetMovies(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
 	now := time.Now()
 
@@ -85,7 +77,6 @@ func TestGetMovies(t *testing.T) {
 	}
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("FindByUserID", userID, testMovie.Title, 1, 10).Return([]models.Movie{testMovie}, nil)
 
 	// Execute the method under test
@@ -95,13 +86,11 @@ func TestGetMovies(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, testMovie.Title, result[0].Title)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
 
 func TestGetMovieDetails(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
 	movieID := uuid.New()
 	now := time.Now()
@@ -119,7 +108,6 @@ func TestGetMovieDetails(t *testing.T) {
 	}
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("FindByID", movieID).Return(&testMovie, nil)
 
 	// Execute the method under test
@@ -129,19 +117,16 @@ func TestGetMovieDetails(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, testMovie.Title, result.Title)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
 
 func TestGiveRating(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
 	movieID := uuid.New()
 	rating := int16(5)
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("FindByID", movieID).Return(&models.Movie{}, nil)
 	mockMovieRepo.On("UpdateRating", movieID, rating).Return(nil)
 
@@ -151,18 +136,15 @@ func TestGiveRating(t *testing.T) {
 	// Assertions
 	assert.NoError(t, err)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
 
 func TestIsExist(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
-	mockUserRepo := new(user.MockUserRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo, mockUserRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
 	movieID := "123"
 
 	// Setup expectations
-	mockUserRepo.On("FindById", userID).Return(&models.User{}, nil)
 	mockMovieRepo.On("IsExist", userID, movieID).Return(true, nil)
 
 	// Execute the method under test
@@ -172,5 +154,4 @@ func TestIsExist(t *testing.T) {
 	assert.NoError(t, err)
 	assert.True(t, result)
 	mockMovieRepo.AssertExpectations(t)
-	mockUserRepo.AssertExpectations(t)
 }
