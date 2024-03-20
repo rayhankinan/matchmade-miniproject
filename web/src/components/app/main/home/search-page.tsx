@@ -68,7 +68,7 @@ export default function SearchMovie({ query }: { query: string }) {
     return () => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
-  }, [observerTarget, fetchData]);
+  }, [fetchData]);
 
   if (status === "pending") return <Spinner />;
 

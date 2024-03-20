@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 
 import MovieDialog from "~/components/app/main/movie/movie-dialog";

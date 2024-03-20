@@ -42,14 +42,13 @@ export default function DiscoverMovie() {
     isFetchingNextPage,
     status,
   } = discoverMovieQuery;
-
-  const observerTarget = useRef<HTMLDivElement>(null);
-
   const fetchData = useCallback(async () => {
     if (isFetching || !hasNextPage) return;
 
     await fetchNextPage();
   }, [isFetching, hasNextPage, fetchNextPage]);
+
+  const observerTarget = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const currentTarget = observerTarget.current;
@@ -66,7 +65,7 @@ export default function DiscoverMovie() {
     return () => {
       if (currentTarget) observer.unobserve(currentTarget);
     };
-  }, [observerTarget, fetchData]);
+  }, [fetchData]);
 
   if (status === "pending") return <Spinner />;
 

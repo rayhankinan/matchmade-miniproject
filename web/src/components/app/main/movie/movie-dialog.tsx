@@ -8,6 +8,13 @@ import { CalendarIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "~/components/ui/carousel";
+import {
   Dialog,
   DialogClose,
   DialogContent,
@@ -19,6 +26,7 @@ import {
 } from "~/components/ui/dialog";
 
 import Spinner from "~/components/app/icon/spinner";
+import MovieTrailer from "~/components/app/main/movie/movie-trailer";
 import movieApi from "~/client/movie-api";
 
 interface MovieDetailResponse {
@@ -27,9 +35,12 @@ interface MovieDetailResponse {
   overview: string;
   release_date: string;
   videos: {
-    site: "YouTube" | "Vimeo";
-    key: string;
-  }[];
+    results: {
+      name: string;
+      site: "YouTube" | "Vimeo";
+      key: string;
+    }[];
+  };
 }
 
 export default function MovieDialog({
@@ -87,6 +98,23 @@ export default function MovieDialog({
                 </span>
               </div>
             </DialogHeader>
+            <Carousel>
+              <CarouselContent>
+                {data.data.videos.results.map((video) => (
+                  <CarouselItem key={video.key}>
+                    <MovieTrailer
+                      data={{
+                        name: video.name,
+                        site: video.site,
+                        key: video.key,
+                      }}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious />
+              <CarouselNext />
+            </Carousel>
             <DialogFooter className="sm:justify-start">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
