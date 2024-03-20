@@ -28,8 +28,8 @@ services:
         - NEXT_PUBLIC_MOVIE_API_URL=https://api.themoviedb.org/3
         - NEXT_PUBLIC_MOVIE_API_TOKEN=${MOVIE_API_TOKEN}
         - NEXT_PUBLIC_MOVIE_IMAGE_URL=https://image.tmdb.org/t/p
-        - NEXT_PUBLIC_YOUTUBE_VIDEO_URL=https://www.youtube.com/embed
-        - NEXT_PUBLIC_VIMEO_VIDEO_URL=https://player.vimeo.com/video
+        - NEXT_PUBLIC_YOUTUBE_VIDEO_URL=https://www.youtube.com/watch
+        - NEXT_PUBLIC_VIMEO_VIDEO_URL=https://vimeo.com
     working_dir: /app
     image: matchmade-miniproject-web
     hostname: web.docker-compose

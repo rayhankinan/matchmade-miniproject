@@ -39,7 +39,11 @@ export default function MovieTrailer({
     <div ref={observerTarget} className="container h-full w-full">
       {load ? (
         <ReactPlayer
-          url={`${site === "YouTube" ? env.NEXT_PUBLIC_YOUTUBE_VIDEO_URL : env.NEXT_PUBLIC_VIMEO_VIDEO_URL}/${key}`}
+          url={
+            site === "YouTube"
+              ? `${env.NEXT_PUBLIC_YOUTUBE_VIDEO_URL}?v=${key}`
+              : `${env.NEXT_PUBLIC_VIMEO_VIDEO_URL}/${key}`
+          }
         />
       ) : (
         <Spinner />
