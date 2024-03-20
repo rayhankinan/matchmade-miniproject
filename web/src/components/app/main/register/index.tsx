@@ -8,6 +8,14 @@ import { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -74,62 +82,78 @@ export default function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="email"
-                  placeholder="yourname@example.com"
-                />
-              </FormControl>
-              <FormDescription>
-                Enter your email address for your account
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input {...field} type="text" placeholder="username" />
-              </FormControl>
-              <FormDescription>
-                Enter your username for your account
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" placeholder="password" />
-              </FormControl>
-              <FormDescription>
-                Enter your password (min. 8 characters)
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card className="w-[350px]">
+          <CardHeader>
+            <CardTitle>Register</CardTitle>
+            <CardDescription>
+              Create an account to start using the app
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <FormField
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder="yourname@example.com"
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Enter your email address for your account
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="text" placeholder="username" />
+                  </FormControl>
+                  <FormDescription>
+                    Enter your username for your account
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" placeholder="password" />
+                  </FormControl>
+                  <FormDescription>
+                    Enter your password (min. 8 characters)
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+
+          <CardFooter className="flex flex-col items-center justify-center">
+            <Button type="submit" disabled={isPending}>
+              Submit
+            </Button>
+          </CardFooter>
+        </Card>
       </form>
     </Form>
   );

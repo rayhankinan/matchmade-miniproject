@@ -8,6 +8,14 @@ import { z } from "zod";
 
 import { Button } from "~/components/ui/button";
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card";
+import {
   Form,
   FormControl,
   FormDescription,
@@ -68,40 +76,53 @@ export default function LoginForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={control}
-          name="identifier"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email or Username</FormLabel>
-              <FormControl>
-                <Input {...field} type="text" placeholder="username" />
-              </FormControl>
-              <FormDescription>
-                Enter the email address or username
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input {...field} type="password" placeholder="password" />
-              </FormControl>
-              <FormDescription>Enter your password</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit" disabled={isPending}>
-          Submit
-        </Button>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Login</CardTitle>
+            <CardDescription>Enter your credentials</CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-4">
+            <FormField
+              control={control}
+              name="identifier"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email or Username</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="text" placeholder="username" />
+                  </FormControl>
+                  <FormDescription>
+                    Enter the email address or username
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input {...field} type="password" placeholder="password" />
+                  </FormControl>
+                  <FormDescription>Enter your password</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </CardContent>
+
+          <CardFooter>
+            <Button type="submit" disabled={isPending}>
+              Submit
+            </Button>
+          </CardFooter>
+        </Card>
       </form>
     </Form>
   );
