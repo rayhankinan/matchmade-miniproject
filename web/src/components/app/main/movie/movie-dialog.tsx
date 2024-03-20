@@ -99,7 +99,7 @@ export default function MovieDialog({
             </DialogHeader>
             {data.data.videos.results.length > 0 && (
               <div className="flex flex-col items-center justify-center">
-                <Carousel className="w-full max-w-sm">
+                <Carousel className="w-full max-w-md">
                   <CarouselContent>
                     {data.data.videos.results.map((video) => (
                       <CarouselItem
