@@ -1,13 +1,13 @@
 "use client";
 
 import { Fragment, useCallback, useEffect, useRef } from "react";
-import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { LoaderIcon } from "lucide-react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 import MoviePreview from "~/components/app/main/movie/movie-preview";
+import Spinner from "~/components/app/icon/spinner";
 import movieApi from "~/client/movie-api";
 
 interface SearchMovieResponse {
@@ -72,8 +72,7 @@ export default function SearchMovie({ query }: { query: string }) {
     };
   }, [observerTarget, fetchData]);
 
-  if (status === "pending")
-    return <LoaderIcon className="h-8 w-8 animate-spin" />;
+  if (status === "pending") return <Spinner />;
 
   if (status === "error")
     return (
@@ -102,7 +101,7 @@ export default function SearchMovie({ query }: { query: string }) {
           </Fragment>
         ))}
       </div>
-      {isFetchingNextPage && <LoaderIcon className="h-8 w-8 animate-spin" />}
+      {isFetchingNextPage && <Spinner />}
       <div ref={observerTarget}></div>
     </>
   );

@@ -4,7 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { CalendarIcon, LoaderIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 import { Button } from "~/components/ui/button";
@@ -18,6 +18,7 @@ import {
   DialogTitle,
 } from "~/components/ui/dialog";
 
+import Spinner from "~/components/app/icon/spinner";
 import movieApi from "~/client/movie-api";
 
 interface MovieDetailResponse {
@@ -72,7 +73,7 @@ export default function MovieDialog({ id }: { id: string | undefined }) {
       <DialogContent>
         {status === "pending" ? (
           <div className="flex items-center justify-center">
-            <LoaderIcon className="h-8 w-8 animate-spin" />
+            <Spinner />
           </div>
         ) : status === "error" ? (
           <>

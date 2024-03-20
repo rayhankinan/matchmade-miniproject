@@ -3,11 +3,11 @@
 import { Fragment, useCallback, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
-import { LoaderIcon } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 import MoviePreview from "~/components/app/main/movie/movie-preview";
+import Spinner from "~/components/app/icon/spinner";
 import movieApi from "~/client/movie-api";
 
 interface DiscoverMovieResponse {
@@ -70,8 +70,7 @@ export default function DiscoverMovie() {
     };
   }, [observerTarget, fetchData]);
 
-  if (status === "pending")
-    return <LoaderIcon className="h-8 w-8 animate-spin" />;
+  if (status === "pending") return <Spinner />;
 
   if (status === "error")
     return (
@@ -100,7 +99,7 @@ export default function DiscoverMovie() {
           </Fragment>
         ))}
       </div>
-      {isFetchingNextPage && <LoaderIcon className="h-8 w-8 animate-spin" />}
+      {isFetchingNextPage && <Spinner />}
       <div ref={observerTarget}></div>
     </>
   );
