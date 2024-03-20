@@ -37,7 +37,7 @@ func (_m *MockMovieRepo) UpdateRating(id uuid.UUID, rating int16) error {
 	return args.Error(0)
 }
 
-func (_m *MockMovieRepo) IsExist(userID uuid.UUID, title string) (bool, error) {
-	ret := _m.Called(userID, title)
+func (_m *MockMovieRepo) IsExist(userID uuid.UUID, movieID string) (bool, error) {
+	ret := _m.Called(userID, movieID)
 	return ret.Bool(0), ret.Error(1)
 }

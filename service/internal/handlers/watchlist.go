@@ -175,3 +175,23 @@ func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 
 	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: "Rating given to movie successfully"})
 }
+
+func (h *WatchlistHandler) IsMovieInWatchlist(c echo.Context) error {
+	userID := c.Get("userID").(string)
+	UserID, err := uuid.Parse(userID)
+	if err != nil {
+		log.Println(err)
+		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
+	}
+
+	movieID := c.Param("id")
+	exist, err := h.WatchlistUseCase.IsExist(UserID, movieID)
+	if err != nil {
+		log.Println(err)
+		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to check if movie is in watchlist"})
+	}
+
+	log.Println("Movie existence in watchlist checked successfully")
+
+	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: exist})
+}

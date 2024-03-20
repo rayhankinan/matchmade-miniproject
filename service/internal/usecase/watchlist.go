@@ -25,7 +25,7 @@ func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (model
 		return models.Movie{}, err
 	}
 
-	exist, err := w.MovieRepo.IsExist(userID, movie.Title)
+	exist, err := w.MovieRepo.IsExist(userID, movie.MovieID)
 	if err != nil {
 		return models.Movie{}, err
 	}
@@ -89,4 +89,13 @@ func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, ratin
 	}
 
 	return w.MovieRepo.UpdateRating(movieID, rating)
+}
+
+func (w *WatchlistUseCase) IsExist(userID uuid.UUID, movieID string) (bool, error) {
+	_, err := w.UserRepo.FindById(userID)
+	if err != nil {
+		return false, err
+	}
+
+	return w.MovieRepo.IsExist(userID, movieID)
 }

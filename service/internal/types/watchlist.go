@@ -8,6 +8,7 @@ import (
 )
 
 type MovieRequest struct {
+	MovieID     string  `json:"movieID"`
 	Title       string  `json:"title"`
 	Image       *string `json:"image,omitempty"`
 	ReleaseDate string  `json:"releaseDate"`
@@ -37,6 +38,7 @@ func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {
 
 	return models.Movie{
 		UserID:      userID,
+		MovieID:     m.MovieID,
 		Title:       m.Title,
 		Image:       image,
 		ReleaseDate: m.ReleaseDate,
