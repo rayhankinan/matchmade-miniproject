@@ -1,5 +1,5 @@
 import LoginForm from "~/components/app/main/login";
-import LoginAlert from "~/components/warning/login-alert";
+import LoginAlert from "~/components/app/warning/login-alert";
 
 import getSession from "~/server/auth";
 

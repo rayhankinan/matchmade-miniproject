@@ -6,7 +6,7 @@ import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 
 import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
-import MoviePreview from "~/components/app/main/movie/movie-preview";
+import MovieClickable from "~/components/app/main/movie/movie-clickable";
 import Spinner from "~/components/app/icon/spinner";
 import movieApi from "~/client/movie-api";
 
@@ -87,7 +87,7 @@ export default function SearchMovie({ query }: { query: string }) {
         {data.pages.map((page, i) => (
           <Fragment key={i}>
             {page.data.results.map((movie) => (
-              <MoviePreview
+              <MovieClickable
                 key={movie.id}
                 data={{
                   id: movie.id,
