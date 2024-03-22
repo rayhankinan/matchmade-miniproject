@@ -22,9 +22,9 @@ type Movie struct {
 
 type MovieRepository interface {
 	Create(movie *Movie) error
-	Delete(mid int64) error
+	Delete(userID uuid.UUID, movieID int64) error
 	FindByUserID(userID uuid.UUID, title string, page int, pageSize int) ([]Movie, error)
-	FindByID(mid int64) (*Movie, error)
-	UpdateRating(mid int64, rating int64) error
+	FindByID(userID uuid.UUID, movieID int64) (*Movie, error)
+	UpdateRating(userID uuid.UUID, movieID int64, rating int64) error
 	IsExist(userID uuid.UUID, movieID int64) (bool, error)
 }

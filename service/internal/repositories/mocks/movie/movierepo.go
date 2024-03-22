@@ -17,8 +17,8 @@ func (_m *MockMovieRepo) Create(movie *models.Movie) error {
 	return ret.Error(0)
 }
 
-func (_m *MockMovieRepo) Delete(id int64) error {
-	args := _m.Called(id)
+func (_m *MockMovieRepo) Delete(userID uuid.UUID, movieID int64) error {
+	args := _m.Called(userID, movieID)
 	return args.Error(0)
 }
 
@@ -27,13 +27,13 @@ func (_m *MockMovieRepo) FindByUserID(userID uuid.UUID, title string, page int, 
 	return ret.Get(0).([]models.Movie), ret.Error(1)
 }
 
-func (_m *MockMovieRepo) FindByID(id int64) (*models.Movie, error) {
-	ret := _m.Called(id)
+func (_m *MockMovieRepo) FindByID(userID uuid.UUID, movieID int64) (*models.Movie, error) {
+	ret := _m.Called(userID, movieID)
 	return ret.Get(0).(*models.Movie), ret.Error(1)
 }
 
-func (_m *MockMovieRepo) UpdateRating(id int64, rating int64) error {
-	args := _m.Called(id, rating)
+func (_m *MockMovieRepo) UpdateRating(userID uuid.UUID, movieID int64, rating int64) error {
+	args := _m.Called(userID, movieID, rating)
 	return args.Error(0)
 }
 

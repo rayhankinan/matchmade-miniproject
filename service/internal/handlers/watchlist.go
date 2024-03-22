@@ -66,13 +66,13 @@ func (h *WatchlistHandler) RemoveMovieFromWatchlist(c echo.Context) error {
 	}
 
 	userID := c.Get("userID").(string)
-	_, err = uuid.Parse(userID)
+	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
-	err = h.WatchlistUseCase.RemoveMovie(MovieID)
+	err = h.WatchlistUseCase.RemoveMovie(UserID, MovieID)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "The movie does not exist in watchlist"})
@@ -125,7 +125,7 @@ func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 	}
 
 	userID := c.Get("userID").(string)
-	_, err = uuid.Parse(userID)
+	UserID, err := uuid.Parse(userID)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
@@ -146,7 +146,7 @@ func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid request: Please provide valid data"})
 	}
 
-	err = h.WatchlistUseCase.GiveRating(MovieID, req.Rating)
+	err = h.WatchlistUseCase.GiveRating(UserID, MovieID, req.Rating)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to give rating to movie"})

@@ -24,8 +24,8 @@ func (c *GormMovieRepo) Create(movie *models.Movie) error {
 	return c.DB.Create(&movie).Error
 }
 
-func (c *GormMovieRepo) Delete(mid int64) error {
-	return c.DB.Where("movie_id = ?", mid).Delete(&models.Movie{}).Error
+func (c *GormMovieRepo) Delete(userID uuid.UUID, movieID int64) error {
+	return c.DB.Where("user_id = ? AND movie_id = ?", userID, movieID).Delete(&models.Movie{}).Error
 }
 
 func (c *GormMovieRepo) FindByUserID(userID uuid.UUID, title string, page int, pageSize int) ([]models.Movie, error) {
@@ -40,9 +40,9 @@ func (c *GormMovieRepo) FindByUserID(userID uuid.UUID, title string, page int, p
 	return movies, query.Offset(offset).Limit(pageSize).Find(&movies).Error
 }
 
-func (c *GormMovieRepo) FindByID(mid int64) (*models.Movie, error) {
+func (c *GormMovieRepo) FindByID(userID uuid.UUID, movieID int64) (*models.Movie, error) {
 	var movie models.Movie
-	err := c.DB.First(&movie, "movie_id = ?", mid).Error
+	err := c.DB.First(&movie, "user_id = ? AND movie_id = ?", userID, movieID).Error
 	if err != nil {
 		return nil, err
 	}
@@ -50,8 +50,8 @@ func (c *GormMovieRepo) FindByID(mid int64) (*models.Movie, error) {
 	return &movie, nil
 }
 
-func (c *GormMovieRepo) UpdateRating(mid int64, rating int64) error {
-	result := c.DB.Model(&models.Movie{}).Where("movie_id = ?", mid).Updates(
+func (c *GormMovieRepo) UpdateRating(userID uuid.UUID, movieID int64, rating int64) error {
+	result := c.DB.Model(&models.Movie{}).Where("user_id = ? AND movie_id = ?", userID, movieID).Updates(
 		map[string]interface{}{
 			"rating":     sql.NullInt64{Int64: rating, Valid: true},
 			"updated_at": time.Now(),
