@@ -8,8 +8,8 @@ import (
 )
 
 type MovieRequest struct {
-	MovieID int64   `json:"movieID"`
-	Title   string  `json:"title"`
+	MovieID int64   `json:"movieID" validate:"required"`
+	Title   string  `json:"title" validate:"required"`
 	Image   *string `json:"image,omitempty"`
 	Rating  *int16  `json:"rating,omitempty"`
 }
@@ -38,6 +38,6 @@ func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {
 		MovieID: m.MovieID,
 		Title:   m.Title,
 		Image:   image,
-		Rating:  rating, // Ensure your Movie struct in the domain model expects sql.NullInt64 for Rating
+		Rating:  rating,
 	}, nil
 }

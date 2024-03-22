@@ -42,14 +42,13 @@ func TestAddMovie(t *testing.T) {
 func TestRemoveMovie(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
-	userID := uuid.New()
 	movieID := uuid.New()
 
 	// Setup expectations
 	mockMovieRepo.On("Delete", movieID).Return(nil)
 
 	// Execute the method under test
-	err := watchlistUseCase.RemoveMovie(movieID, userID)
+	err := watchlistUseCase.RemoveMovie(movieID)
 
 	// Assertions
 	assert.NoError(t, err)
@@ -102,7 +101,7 @@ func TestGetMovieDetails(t *testing.T) {
 	mockMovieRepo.On("FindByID", movieID).Return(&testMovie, nil)
 
 	// Execute the method under test
-	result, err := watchlistUseCase.GetMovieDetail(movieID, userID)
+	result, err := watchlistUseCase.GetMovieDetail(movieID)
 
 	// Assertions
 	assert.NoError(t, err)
@@ -113,7 +112,6 @@ func TestGetMovieDetails(t *testing.T) {
 func TestGiveRating(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
-	userID := uuid.New()
 	movieID := uuid.New()
 	rating := int16(5)
 
@@ -122,7 +120,7 @@ func TestGiveRating(t *testing.T) {
 	mockMovieRepo.On("UpdateRating", movieID, rating).Return(nil)
 
 	// Execute the method under test
-	err := watchlistUseCase.GiveRating(movieID, userID, rating)
+	err := watchlistUseCase.GiveRating(movieID, rating)
 
 	// Assertions
 	assert.NoError(t, err)
@@ -133,7 +131,7 @@ func TestIsExist(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
-	movieID := 123
+	movieID := int64(123)
 
 	// Setup expectations
 	mockMovieRepo.On("IsExist", userID, movieID).Return(true, nil)
