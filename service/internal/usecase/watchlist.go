@@ -64,6 +64,6 @@ func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, userID uuid.UUID, ratin
 	return w.MovieRepo.UpdateRating(movieID, rating)
 }
 
-func (w *WatchlistUseCase) IsExist(userID uuid.UUID, movieID string) (bool, error) {
+func (w *WatchlistUseCase) IsExist(userID uuid.UUID, movieID int64) (bool, error) {
 	return w.MovieRepo.IsExist(userID, movieID)
 }

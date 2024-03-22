@@ -28,6 +28,7 @@ import {
 import Spinner from "~/components/app/icon/spinner";
 import MovieTrailer from "~/components/app/main/movie/movie-trailer";
 import movieApi from "~/client/movie-api";
+import api from "~/client/api";
 
 interface MovieDetailResponse {
   id: number;
@@ -40,6 +41,10 @@ interface MovieDetailResponse {
       key: string;
     }[];
   };
+}
+
+interface IsMovieInWatchlistResponse {
+  data: boolean;
 }
 
 export default function MovieDialog({
@@ -57,17 +62,34 @@ export default function MovieDialog({
     enabled: open,
   });
 
-  const { data, error, status } = detailQuery;
+  const {
+    data: detailData,
+    error: detailError,
+    status: detailStatus,
+  } = detailQuery;
+
+  const isMovieInWatchlistQuery = useQuery({
+    queryKey: ["is-movie-in-watchlist", id],
+    queryFn: async () =>
+      api.get<IsMovieInWatchlistResponse>(`/watchlist/exist/${id}`),
+    enabled: open,
+  });
+
+  const {
+    data: isMovieInWatchlistData,
+    error: isMovieInWatchlistError,
+    status: isMovieInWatchlistStatus,
+  } = isMovieInWatchlistQuery;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
-        {status === "pending" ? (
+        {detailStatus === "pending" ? (
           <div className="flex items-center justify-center">
             <Spinner />
           </div>
-        ) : status === "error" ? (
+        ) : detailStatus === "error" ? (
           <>
             <DialogHeader>
               <DialogTitle>Error</DialogTitle>
@@ -75,7 +97,7 @@ export default function MovieDialog({
             <Alert variant="destructive">
               <ExclamationTriangleIcon className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
-              <AlertDescription>{error.message}</AlertDescription>
+              <AlertDescription>{detailError.message}</AlertDescription>
             </Alert>
             <DialogFooter className="sm:justify-start">
               <DialogClose asChild>
@@ -89,23 +111,25 @@ export default function MovieDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                <div className="text-xl">{data.data.title}</div>
+                <div className="text-xl">{detailData.data.title}</div>
               </DialogTitle>
               <DialogDescription>
-                <div className="text-md">&quot;{data.data.overview}&quot;</div>
+                <div className="text-md">
+                  &quot;{detailData.data.overview}&quot;
+                </div>
               </DialogDescription>
               <div className="flex items-center pt-2">
                 <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                 <span className="text-xs text-muted-foreground">
-                  Released on {data.data.release_date}
+                  Released on {detailData.data.release_date}
                 </span>
               </div>
             </DialogHeader>
-            {data.data.videos.results.length > 0 && (
+            {detailData.data.videos.results.length > 0 && (
               <div className="flex flex-col items-center justify-center">
                 <Carousel className="w-full max-w-md">
                   <CarouselContent>
-                    {data.data.videos.results.map((video) => (
+                    {detailData.data.videos.results.map((video) => (
                       <CarouselItem
                         key={video.key}
                         className="flex flex-col items-center justify-center"
@@ -125,11 +149,9 @@ export default function MovieDialog({
               </div>
             )}
             <DialogFooter className="sm:justify-center">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Add to Watchlist
-                </Button>
-              </DialogClose>
+              <Button type="button" variant="secondary">
+                Add to Watchlist
+              </Button>
             </DialogFooter>
           </>
         )}

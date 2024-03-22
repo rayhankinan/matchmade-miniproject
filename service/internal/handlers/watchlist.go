@@ -185,7 +185,13 @@ func (h *WatchlistHandler) IsMovieInWatchlist(c echo.Context) error {
 	}
 
 	movieID := c.Param("id")
-	exist, err := h.WatchlistUseCase.IsExist(UserID, movieID)
+	MovieID, err := strconv.ParseInt(movieID, 10, 64)
+	if err != nil {
+		log.Println(err)
+		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
+	}
+
+	exist, err := h.WatchlistUseCase.IsExist(UserID, MovieID)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to check if movie is in watchlist"})

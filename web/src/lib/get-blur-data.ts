@@ -6,6 +6,7 @@ async function getBlurData(src: string) {
   );
 
   const data = await getPlaiceholder(buffer);
+
   return data;
 }
 

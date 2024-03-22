@@ -19,14 +19,11 @@ func TestAddMovie(t *testing.T) {
 	now := time.Now()
 
 	testMovie := models.Movie{
-		UserID:      userID,
-		MovieID:     "123",
-		Title:       "Test Movie",
-		ReleaseDate: "2021-01-01",
-		Summary:     "Test Summary",
-		Genre:       "Test Genre",
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		UserID:    userID,
+		MovieID:   123,
+		Title:     "Test Movie",
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
 	// Setup expectations
@@ -66,14 +63,11 @@ func TestGetMovies(t *testing.T) {
 	now := time.Now()
 
 	testMovie := models.Movie{
-		UserID:      userID,
-		MovieID:     "123",
-		Title:       "Test Movie",
-		ReleaseDate: "2021-01-01",
-		Summary:     "Test Summary",
-		Genre:       "Test Genre",
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		UserID:    userID,
+		MovieID:   123,
+		Title:     "Test Movie",
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
 	// Setup expectations
@@ -96,15 +90,12 @@ func TestGetMovieDetails(t *testing.T) {
 	now := time.Now()
 
 	testMovie := models.Movie{
-		MID:         movieID,
-		UserID:      userID,
-		MovieID:     "123",
-		Title:       "Test Movie",
-		ReleaseDate: "2021-01-01",
-		Summary:     "Test Summary",
-		Genre:       "Test Genre",
-		CreatedAt:   now,
-		UpdatedAt:   now,
+		MID:       movieID,
+		UserID:    userID,
+		MovieID:   123,
+		Title:     "Test Movie",
+		CreatedAt: now,
+		UpdatedAt: now,
 	}
 
 	// Setup expectations
@@ -142,13 +133,13 @@ func TestIsExist(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	userID := uuid.New()
-	movieID := "123"
+	movieID := 123
 
 	// Setup expectations
 	mockMovieRepo.On("IsExist", userID, movieID).Return(true, nil)
 
 	// Execute the method under test
-	result, err := watchlistUseCase.IsExist(userID, movieID)
+	result, err := watchlistUseCase.IsExist(userID, int64(movieID))
 
 	// Assertions
 	assert.NoError(t, err)
