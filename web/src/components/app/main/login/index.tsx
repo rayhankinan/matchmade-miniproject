@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -91,7 +92,11 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Email or Username</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" placeholder="email/username" />
+                    <Input
+                      {...field}
+                      type="text"
+                      placeholder="email/username"
+                    />
                   </FormControl>
                   <FormDescription>
                     Enter your email address or username
@@ -120,9 +125,9 @@ export default function LoginForm() {
             <FormLabel>
               <div className="text-sm">
                 Don&apos;t have an account?{" "}
-                <a href="/register" className="text-gray-400">
-                  Register here
-                </a>
+                <Button variant="link">
+                  <Link href="/register">Register here</Link>
+                </Button>
               </div>
             </FormLabel>
           </CardContent>

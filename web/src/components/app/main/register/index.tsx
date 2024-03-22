@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { type SubmitHandler, useForm } from "react-hook-form";
@@ -151,9 +152,9 @@ export default function RegisterForm() {
             <FormLabel>
               <div className="text-sm">
                 Already have an account?{" "}
-                <a href="/login" className="text-gray-400">
-                  Login here
-                </a>
+                <Button variant="link">
+                  <Link href="/login">Login here</Link>
+                </Button>
               </div>
             </FormLabel>
           </CardContent>

@@ -13,11 +13,11 @@ export default function HomePage({
   return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-12">
       {query ? (
-        <h1 className="pt-20 text-3xl font-bold">
+        <h1 className="pt-20 text-2xl font-bold">
           Search results for <span className="italic">&quot;{query}&quot;</span>
         </h1>
       ) : (
-        <h1 className="pt-20 text-3xl font-bold">Discover Movies</h1>
+        <h1 className="pt-20 text-2xl font-bold">Discover Movies</h1>
       )}
       <div className="flex min-h-screen flex-col items-center justify-center">
         {query ? <SearchMovie query={query} /> : <DiscoverMovie />}

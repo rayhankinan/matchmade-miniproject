@@ -26,7 +26,7 @@ export default function MovieClickable({
           />
         </div>
       ) : (
-        <div className="h-[375px] w-[250px] cursor-pointer rounded-sm bg-gray-300 bg-[url('/images/placeholder.svg')] bg-center bg-no-repeat transition-all hover:scale-[1.05] hover:shadow-md"></div>
+        <div className="h-[375px] w-[250px] cursor-pointer rounded-sm bg-gray-300 bg-[url('/images/vector/placeholder.svg')] bg-center bg-no-repeat transition-all hover:scale-[1.05] hover:shadow-md"></div>
       )}
     </MovieDialog>
   );
