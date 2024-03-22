@@ -26,13 +26,12 @@ func CreateRoute(db *gorm.DB) *echo.Echo {
 	userRoute.POST("/login", authHandler.Login)
 	userRoute.POST("/logout", authHandler.Logout)
 
-	movieRoute := e.Group("/movies", middleware.JWTAuthMiddleware)
-	movieRoute.POST("/add", watchlistHandler.AddMovieToWatchlist, middleware.JWTAuthMiddleware)
-	movieRoute.DELETE("/remove/:id", watchlistHandler.RemoveMovieFromWatchlist, middleware.JWTAuthMiddleware)
-	movieRoute.GET("/watchlist", watchlistHandler.GetMovies, middleware.JWTAuthMiddleware)
-	movieRoute.GET("/watchlist/:id", watchlistHandler.GetMovieDetail, middleware.JWTAuthMiddleware)
-	movieRoute.PATCH("/watchlist/rate/:id", watchlistHandler.GiveRating, middleware.JWTAuthMiddleware)
+	movieRoute := e.Group("/movies")
 	movieRoute.GET("/watchlist/exist/:id", watchlistHandler.IsMovieInWatchlist, middleware.JWTAuthMiddleware)
+	movieRoute.GET("/watchlist", watchlistHandler.GetMovies, middleware.JWTAuthMiddleware)
+	movieRoute.POST("/add", watchlistHandler.AddMovieToWatchlist, middleware.JWTAuthMiddleware)
+	movieRoute.PATCH("/watchlist/rate/:id", watchlistHandler.GiveRating, middleware.JWTAuthMiddleware)
+	movieRoute.DELETE("/remove/:id", watchlistHandler.RemoveMovieFromWatchlist, middleware.JWTAuthMiddleware)
 
 	return e
 }

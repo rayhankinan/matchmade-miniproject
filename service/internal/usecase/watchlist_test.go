@@ -81,34 +81,6 @@ func TestGetMovies(t *testing.T) {
 	mockMovieRepo.AssertExpectations(t)
 }
 
-func TestGetMovieDetails(t *testing.T) {
-	mockMovieRepo := new(movie.MockMovieRepo)
-	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
-	userID := uuid.New()
-	movieID := uuid.New()
-	now := time.Now()
-
-	testMovie := models.Movie{
-		MID:       movieID,
-		UserID:    userID,
-		MovieID:   123,
-		Title:     "Test Movie",
-		CreatedAt: now,
-		UpdatedAt: now,
-	}
-
-	// Setup expectations
-	mockMovieRepo.On("FindByID", movieID).Return(&testMovie, nil)
-
-	// Execute the method under test
-	result, err := watchlistUseCase.GetMovieDetail(movieID)
-
-	// Assertions
-	assert.NoError(t, err)
-	assert.Equal(t, testMovie.Title, result.Title)
-	mockMovieRepo.AssertExpectations(t)
-}
-
 func TestGiveRating(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)

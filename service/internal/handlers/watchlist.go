@@ -116,32 +116,6 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: movies})
 }
 
-func (h *WatchlistHandler) GetMovieDetail(c echo.Context) error {
-	movieID := c.Param("id")
-	MovieID, err := uuid.Parse(movieID)
-	if err != nil {
-		log.Println(err)
-		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
-	}
-
-	userID := c.Get("userID").(string)
-	_, err = uuid.Parse(userID)
-	if err != nil {
-		log.Println(err)
-		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
-	}
-
-	movie, err := h.WatchlistUseCase.GetMovieDetail(MovieID)
-	if err != nil {
-		log.Println(err)
-		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "The movie does not exist in watchlist"})
-	}
-
-	log.Println("Movie detail retrieved successfully")
-
-	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: movie})
-}
-
 func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 	movieID := c.Param("id")
 	MovieID, err := uuid.Parse(movieID)

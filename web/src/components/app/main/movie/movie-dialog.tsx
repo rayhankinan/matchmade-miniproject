@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { CalendarIcon } from "lucide-react";
@@ -27,8 +28,9 @@ import {
 
 import Spinner from "~/components/app/icon/spinner";
 import MovieTrailer from "~/components/app/main/movie/movie-trailer";
+import AddToWatchlistButton from "~/components/app/main/movie/add-to-watchlist-button";
+import useSession from "~/hooks/auth";
 import movieApi from "~/client/movie-api";
-import api from "~/client/api";
 
 interface MovieDetailResponse {
   id: number;
@@ -43,15 +45,13 @@ interface MovieDetailResponse {
   };
 }
 
-interface IsMovieInWatchlistResponse {
-  data: boolean;
-}
-
 export default function MovieDialog({
   id,
   children,
 }: React.PropsWithChildren<{ id: number }>) {
   const [open, setOpen] = useState(false);
+
+  const session = useSession();
 
   const detailQuery = useQuery({
     queryKey: ["movie-detail", id],
@@ -67,19 +67,6 @@ export default function MovieDialog({
     error: detailError,
     status: detailStatus,
   } = detailQuery;
-
-  const isMovieInWatchlistQuery = useQuery({
-    queryKey: ["is-movie-in-watchlist", id],
-    queryFn: async () =>
-      api.get<IsMovieInWatchlistResponse>(`/watchlist/exist/${id}`),
-    enabled: open,
-  });
-
-  const {
-    data: isMovieInWatchlistData,
-    error: isMovieInWatchlistError,
-    status: isMovieInWatchlistStatus,
-  } = isMovieInWatchlistQuery;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -149,9 +136,13 @@ export default function MovieDialog({
               </div>
             )}
             <DialogFooter className="sm:justify-center">
-              <Button type="button" variant="secondary">
-                Add to Watchlist
-              </Button>
+              {session !== null ? (
+                <AddToWatchlistButton id={id} enabled={open} />
+              ) : (
+                <Button asChild>
+                  <Link href="/login">Login to add to watchlist</Link>
+                </Button>
+              )}
             </DialogFooter>
           </>
         )}

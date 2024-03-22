@@ -46,10 +46,6 @@ func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, p
 	return w.MovieRepo.FindByUserID(userID, title, page, pageSize)
 }
 
-func (w *WatchlistUseCase) GetMovieDetail(movieID uuid.UUID) (*models.Movie, error) {
-	return w.MovieRepo.FindByID(movieID)
-}
-
 func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, rating int16) error {
 	_, err := w.MovieRepo.FindByID(movieID)
 	if err != nil {
