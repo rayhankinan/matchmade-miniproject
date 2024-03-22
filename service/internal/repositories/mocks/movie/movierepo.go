@@ -32,7 +32,7 @@ func (_m *MockMovieRepo) FindByID(id int64) (*models.Movie, error) {
 	return ret.Get(0).(*models.Movie), ret.Error(1)
 }
 
-func (_m *MockMovieRepo) UpdateRating(id int64, rating int16) error {
+func (_m *MockMovieRepo) UpdateRating(id int64, rating int64) error {
 	args := _m.Called(id, rating)
 	return args.Error(0)
 }

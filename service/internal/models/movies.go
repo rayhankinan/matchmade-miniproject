@@ -25,6 +25,6 @@ type MovieRepository interface {
 	Delete(mid int64) error
 	FindByUserID(userID uuid.UUID, title string, page int, pageSize int) ([]Movie, error)
 	FindByID(mid int64) (*Movie, error)
-	UpdateRating(mid int64, rating int16) error
+	UpdateRating(mid int64, rating int64) error
 	IsExist(userID uuid.UUID, movieID int64) (bool, error)
 }

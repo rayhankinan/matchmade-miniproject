@@ -50,10 +50,10 @@ func (c *GormMovieRepo) FindByID(mid int64) (*models.Movie, error) {
 	return &movie, nil
 }
 
-func (c *GormMovieRepo) UpdateRating(mid int64, rating int16) error {
+func (c *GormMovieRepo) UpdateRating(mid int64, rating int64) error {
 	result := c.DB.Model(&models.Movie{}).Where("movie_id = ?", mid).Updates(
 		map[string]interface{}{
-			"rating":     sql.NullInt64{Int64: int64(rating), Valid: true},
+			"rating":     sql.NullInt64{Int64: rating, Valid: true},
 			"updated_at": time.Now(),
 		})
 	return result.Error

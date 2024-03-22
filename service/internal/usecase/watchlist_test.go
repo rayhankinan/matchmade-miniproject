@@ -85,7 +85,7 @@ func TestGiveRating(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
 	movieID := int64(123)
-	rating := int16(5)
+	rating := int64(5)
 
 	// Setup expectations
 	mockMovieRepo.On("FindByID", movieID).Return(&models.Movie{}, nil)
@@ -109,7 +109,7 @@ func TestIsExist(t *testing.T) {
 	mockMovieRepo.On("IsExist", userID, movieID).Return(true, nil)
 
 	// Execute the method under test
-	result, err := watchlistUseCase.IsExist(userID, int64(movieID))
+	result, err := watchlistUseCase.IsExist(userID, movieID)
 
 	// Assertions
 	assert.NoError(t, err)

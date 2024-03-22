@@ -11,11 +11,11 @@ type MovieRequest struct {
 	MovieID int64   `json:"movieID" validate:"required"`
 	Title   string  `json:"title" validate:"required"`
 	Image   *string `json:"image,omitempty"`
-	Rating  *int16  `json:"rating,omitempty"`
+	Rating  *int64  `json:"rating,omitempty"`
 }
 
 type RatingRequest struct {
-	Rating int16 `json:"rating" validate:"required,gte=1,lte=5"`
+	Rating int64 `json:"rating" validate:"required,gte=1,lte=5"`
 }
 
 func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {
@@ -28,7 +28,7 @@ func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {
 
 	var rating sql.NullInt64
 	if m.Rating != nil {
-		rating = sql.NullInt64{Int64: int64(*m.Rating), Valid: true}
+		rating = sql.NullInt64{Int64: *m.Rating, Valid: true}
 	} else {
 		rating = sql.NullInt64{Valid: false}
 	}
