@@ -37,6 +37,7 @@ interface MovieDetailResponse {
   title: string;
   overview: string;
   release_date: string;
+  poster_path: string | null;
   videos: {
     results: {
       site: "YouTube" | "Vimeo";
@@ -137,7 +138,12 @@ export default function MovieDialog({
             )}
             <DialogFooter className="sm:justify-center">
               {session !== null ? (
-                <AddToWatchlistButton id={id} enabled={open} />
+                <AddToWatchlistButton
+                  id={id}
+                  title={detailData.data.title}
+                  posterPath={detailData.data.poster_path}
+                  enabled={open}
+                />
               ) : (
                 <Button asChild>
                   <Link href="/login">Login to add to watchlist</Link>

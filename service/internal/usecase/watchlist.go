@@ -24,7 +24,7 @@ func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (model
 	}
 
 	if exist {
-		return models.Movie{}, fmt.Errorf("movie already exists in watchlist")
+		return models.Movie{}, fmt.Errorf("Movie already exists in watchlist")
 	}
 
 	movie.MID = uuid.New()
@@ -38,7 +38,7 @@ func (w *WatchlistUseCase) AddMovie(movie models.Movie, userID uuid.UUID) (model
 	return movie, nil
 }
 
-func (w *WatchlistUseCase) RemoveMovie(movieID uuid.UUID) error {
+func (w *WatchlistUseCase) RemoveMovie(movieID int64) error {
 	return w.MovieRepo.Delete(movieID)
 }
 
@@ -46,7 +46,7 @@ func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, p
 	return w.MovieRepo.FindByUserID(userID, title, page, pageSize)
 }
 
-func (w *WatchlistUseCase) GiveRating(movieID uuid.UUID, rating int16) error {
+func (w *WatchlistUseCase) GiveRating(movieID int64, rating int16) error {
 	_, err := w.MovieRepo.FindByID(movieID)
 	if err != nil {
 		return err

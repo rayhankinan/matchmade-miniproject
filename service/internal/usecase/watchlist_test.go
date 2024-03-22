@@ -42,7 +42,7 @@ func TestAddMovie(t *testing.T) {
 func TestRemoveMovie(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
-	movieID := uuid.New()
+	movieID := int64(123)
 
 	// Setup expectations
 	mockMovieRepo.On("Delete", movieID).Return(nil)
@@ -84,7 +84,7 @@ func TestGetMovies(t *testing.T) {
 func TestGiveRating(t *testing.T) {
 	mockMovieRepo := new(movie.MockMovieRepo)
 	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
-	movieID := uuid.New()
+	movieID := int64(123)
 	rating := int16(5)
 
 	// Setup expectations

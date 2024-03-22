@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"database/sql"
+	"fmt"
 	"service/internal/models"
 	"time"
 
@@ -23,8 +24,8 @@ func (c *GormMovieRepo) Create(movie *models.Movie) error {
 	return c.DB.Create(&movie).Error
 }
 
-func (c *GormMovieRepo) Delete(mid uuid.UUID) error {
-	return c.DB.Delete(&models.Movie{}, mid).Error
+func (c *GormMovieRepo) Delete(mid int64) error {
+	return c.DB.Where("movie_id = ?", mid).Delete(&models.Movie{}).Error
 }
 
 func (c *GormMovieRepo) FindByUserID(userID uuid.UUID, title string, page int, pageSize int) ([]models.Movie, error) {
@@ -32,16 +33,16 @@ func (c *GormMovieRepo) FindByUserID(userID uuid.UUID, title string, page int, p
 	query := c.DB.Where("user_id = ?", userID)
 
 	if title != "" {
-		query = query.Where("title ILIKE ?", "%"+title+"%")
+		query = query.Where("title ILIKE ?", fmt.Sprintf("%%%s%%", title))
 	}
 
 	offset := (page - 1) * pageSize
 	return movies, query.Offset(offset).Limit(pageSize).Find(&movies).Error
 }
 
-func (c *GormMovieRepo) FindByID(mid uuid.UUID) (*models.Movie, error) {
+func (c *GormMovieRepo) FindByID(mid int64) (*models.Movie, error) {
 	var movie models.Movie
-	err := c.DB.First(&movie, "m_id = ?", mid).Error
+	err := c.DB.First(&movie, "movie_id = ?", mid).Error
 	if err != nil {
 		return nil, err
 	}
@@ -49,8 +50,8 @@ func (c *GormMovieRepo) FindByID(mid uuid.UUID) (*models.Movie, error) {
 	return &movie, nil
 }
 
-func (c *GormMovieRepo) UpdateRating(mid uuid.UUID, rating int16) error {
-	result := c.DB.Model(&models.Movie{}).Where("m_id = ?", mid).Updates(
+func (c *GormMovieRepo) UpdateRating(mid int64, rating int16) error {
+	result := c.DB.Model(&models.Movie{}).Where("movie_id = ?", mid).Updates(
 		map[string]interface{}{
 			"rating":     sql.NullInt64{Int64: int64(rating), Valid: true},
 			"updated_at": time.Now(),

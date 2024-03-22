@@ -59,7 +59,7 @@ func (h *WatchlistHandler) AddMovieToWatchlist(c echo.Context) error {
 
 func (h *WatchlistHandler) RemoveMovieFromWatchlist(c echo.Context) error {
 	movieID := c.Param("id")
-	MovieID, err := uuid.Parse(movieID)
+	MovieID, err := strconv.ParseInt(movieID, 10, 64)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})
@@ -118,7 +118,7 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 
 func (h *WatchlistHandler) GiveRating(c echo.Context) error {
 	movieID := c.Param("id")
-	MovieID, err := uuid.Parse(movieID)
+	MovieID, err := strconv.ParseInt(movieID, 10, 64)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusBadRequest, types.ErrorResponse{Message: "Invalid movie ID"})

@@ -69,11 +69,7 @@ export default function SearchBar() {
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  {...field}
-                  type="text"
-                  placeholder="Search movies..."
-                />
+                <Input {...field} type="text" placeholder="Search movies..." />
               </FormControl>
               <FormMessage />
             </FormItem>
