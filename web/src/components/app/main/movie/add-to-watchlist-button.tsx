@@ -46,8 +46,10 @@ export default function AddToWatchlistButton({
     );
 
   return (
-    <Button variant={isMovieInWatchlistData.data ? "destructive" : "default"}>
-      {isMovieInWatchlistData.data
+    <Button
+      variant={isMovieInWatchlistData.data.data ? "destructive" : "default"}
+    >
+      {isMovieInWatchlistData.data.data
         ? "Remove from watchlist"
         : "Add to watchlist"}
     </Button>
