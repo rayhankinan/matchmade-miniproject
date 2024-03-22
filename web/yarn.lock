@@ -234,13 +234,6 @@
   resolved "https://registry.yarnpkg.com/@plaiceholder/next/-/next-3.0.0.tgz#b35d74286f14fccf8df6793a540d81ac16bca349"
   integrity sha512-7UK/H1X64hwo2VaxOPKMXE+OY9IgmKLPsq/xKHZ+gU07oqQSfIWWIgpVVucMB3ZgVYah+68agR15BRuSxAuMHw==
 
-"@plaiceholder/tailwindcss@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@plaiceholder/tailwindcss/-/tailwindcss-3.0.0.tgz#d1a6bc426a10d6fa45a400138b1a4e58e8b9ba33"
-  integrity sha512-2yTU2Y7C/UeqU6DxAibMoqx0jV6YXD0QdgkuxI67RpM4Q9rXhBDShGrSBTlXkBu7YOL9sK+N1KFs+CeJGMtOkA==
-  dependencies:
-    make-synchronous "0.1.1"
-
 "@radix-ui/primitive@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/primitive/-/primitive-1.0.1.tgz#e46f9958b35d10e9f6dc71c497305c22e3e55dbd"
@@ -1292,11 +1285,6 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto-random-string@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-2.0.0.tgz#ef2a7a966ec11083388369baa02ebead229b30d5"
-  integrity sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==
-
 cssesc@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
@@ -1654,11 +1642,6 @@ es-to-primitive@^1.2.1:
     is-callable "^1.1.4"
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
-
-escape-string-regexp@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-2.0.0.tgz#a30304e99daa32e23b2fd20f51babd07cffca344"
-  integrity sha512-UpzcLCXolUWcNu5HtVMHYdXJjArjsF9C0aNnquZYY4uW/Vu0miy5YoWvbV345HauVvcAUnpRuhMMcqTcGOY2+w==
 
 escape-string-regexp@^4.0.0:
   version "4.0.0"
@@ -2592,14 +2575,6 @@ lucide-react@^0.358.0:
   resolved "https://registry.yarnpkg.com/lucide-react/-/lucide-react-0.358.0.tgz#6eceed9275de27dcdb45b728c3686e967aaaef4f"
   integrity sha512-rBSptRjZTMBm24zsFhR6pK/NgbT18JegZGKcH4+1H3+UigMSRpeoWLtR/fAwMYwYnlJOZB+y8WpeHne9D6X6Kg==
 
-make-synchronous@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/make-synchronous/-/make-synchronous-0.1.1.tgz#0169f6ec769c3cf8948d66790da262740c1209e7"
-  integrity sha512-Y4SxxqhaoyMDokJQ0AZz0E+bLhRkOSR7Z/IQoTKPdS6HYi3aobal2kMHoHHoqBadPWjf07P4K1FQLXOx3wf9Yw==
-  dependencies:
-    subsume "^3.0.0"
-    type-fest "^0.16.0"
-
 memoize-one@^5.1.1:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/memoize-one/-/memoize-one-5.2.1.tgz#8337aa3c4335581839ec01c3d594090cebe8f00e"
@@ -3490,14 +3465,6 @@ styled-jsx@5.1.1:
   dependencies:
     client-only "0.0.1"
 
-subsume@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/subsume/-/subsume-3.0.0.tgz#22c92730f441ad72ee9af4bdad42dc4ff830cfaf"
-  integrity sha512-6n/UfV8UWKwJNO8OAOiKntwEMihuBeeoJfzpL542C+OuvT4iWG9SwjrXkOmsxjb4SteHUsos9SvrdqZ9+ICwTQ==
-  dependencies:
-    escape-string-regexp "^2.0.0"
-    unique-string "^2.0.0"
-
 sucrase@^3.32.0:
   version "3.35.0"
   resolved "https://registry.yarnpkg.com/sucrase/-/sucrase-3.35.0.tgz#57f17a3d7e19b36d8995f06679d121be914ae263"
@@ -3674,11 +3641,6 @@ type-check@^0.4.0, type-check@~0.4.0:
   dependencies:
     prelude-ls "^1.2.1"
 
-type-fest@^0.16.0:
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.16.0.tgz#3240b891a78b0deae910dbeb86553e552a148860"
-  integrity sha512-eaBzG6MxNzEn9kiwvtre90cXaNLkmadMWa1zQMs3XORCXNbsH/OewwbxC5ia9dCxIxnTAsSxXJaa/p5y8DlvJg==
-
 type-fest@^0.20.2:
   version "0.20.2"
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-0.20.2.tgz#1bf207f4b28f91583666cb5fbd327887301cd5f4"
@@ -3747,13 +3709,6 @@ undici-types@~5.26.4:
   version "5.26.5"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
-
-unique-string@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/unique-string/-/unique-string-2.0.0.tgz#39c6451f81afb2749de2b233e3f7c5e8843bd89d"
-  integrity sha512-uNaeirEPvpZWSgzwsPGtU2zVSTrn/8L5q/IexZmH0eH6SA73CmAA5U4GwORTxQAZs95TAXLNqeLoPPNO5gZfWg==
-  dependencies:
-    crypto-random-string "^2.0.0"
 
 uri-js@^4.2.2:
   version "4.4.1"

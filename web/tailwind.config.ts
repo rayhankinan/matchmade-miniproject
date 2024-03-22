@@ -1,9 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
-
 import type { Config } from "tailwindcss";
 import { fontFamily } from "tailwindcss/defaultTheme";
-import plaiceholder from "@plaiceholder/tailwindcss";
 
 const config = {
   darkMode: ["class"],
@@ -82,12 +78,7 @@ const config = {
       sans: ["var(--font-sans)", ...fontFamily.sans],
     },
   },
-  plugins: [
-    require("tailwindcss-animate"),
-    plaiceholder({
-      resolver: (src) => fs.readFileSync(path.join("./public", src)),
-    }),
-  ],
+  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;
