@@ -72,7 +72,7 @@ export default function SearchBar() {
                 <Input
                   {...field}
                   type="text"
-                  placeholder="Enter a search term..."
+                  placeholder="Search movies..."
                 />
               </FormControl>
               <FormMessage />

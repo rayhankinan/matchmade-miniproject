@@ -88,12 +88,16 @@ export default function MovieDialog({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>{data.data.title}</DialogTitle>
-              <DialogDescription>{data.data.overview}</DialogDescription>
+              <DialogTitle>
+                <div className="text-xl">{data.data.title}</div>
+              </DialogTitle>
+              <DialogDescription>
+                <div className="text-md">&quot;{data.data.overview}&quot;</div>
+              </DialogDescription>
               <div className="flex items-center pt-2">
                 <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
                 <span className="text-xs text-muted-foreground">
-                  {data.data.release_date}
+                  Released on {data.data.release_date}
                 </span>
               </div>
             </DialogHeader>
@@ -120,10 +124,10 @@ export default function MovieDialog({
                 </Carousel>
               </div>
             )}
-            <DialogFooter className="sm:justify-start">
+            <DialogFooter className="sm:justify-center">
               <DialogClose asChild>
                 <Button type="button" variant="secondary">
-                  Close
+                  Add to Watchlist
                 </Button>
               </DialogClose>
             </DialogFooter>

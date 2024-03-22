@@ -60,7 +60,7 @@ export default function Profile() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{session.username.toUpperCase()}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => mutate()}>Log Out</DropdownMenuItem>
       </DropdownMenuContent>

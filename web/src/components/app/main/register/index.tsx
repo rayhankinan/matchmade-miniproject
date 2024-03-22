@@ -146,11 +146,21 @@ export default function RegisterForm() {
                 </FormItem>
               )}
             />
+
+            <br />
+            <FormLabel>
+              <div className="text-sm">
+                Already have an account?{" "}
+                <a href="/login" className="text-gray-400">
+                  Login here
+                </a>
+              </div>
+            </FormLabel>
           </CardContent>
 
           <CardFooter className="flex flex-col items-center justify-center">
             <Button type="submit" disabled={isPending}>
-              Submit
+              Register
             </Button>
           </CardFooter>
         </Card>

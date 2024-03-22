@@ -91,10 +91,10 @@ export default function LoginForm() {
                 <FormItem>
                   <FormLabel>Email or Username</FormLabel>
                   <FormControl>
-                    <Input {...field} type="text" placeholder="username" />
+                    <Input {...field} type="text" placeholder="email/username" />
                   </FormControl>
                   <FormDescription>
-                    Enter the email address or username
+                    Enter your email address or username
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -115,11 +115,21 @@ export default function LoginForm() {
                 </FormItem>
               )}
             />
+
+            <br />
+            <FormLabel>
+              <div className="text-sm">
+                Don&apos;t have an account?{" "}
+                <a href="/register" className="text-gray-400">
+                  Register here
+                </a>
+              </div>
+            </FormLabel>
           </CardContent>
 
-          <CardFooter>
+          <CardFooter className="flex flex-col items-center justify-center">
             <Button type="submit" disabled={isPending}>
-              Submit
+              Login
             </Button>
           </CardFooter>
         </Card>
