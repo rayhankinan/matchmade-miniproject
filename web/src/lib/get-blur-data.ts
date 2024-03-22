@@ -1,11 +1,10 @@
-import { getPlaiceholder } from "plaiceholder";
+import { readFile } from "node:fs/promises";
 
-async function getBlurData(src: string) {
-  const buffer = await fetch(src).then(async (res) =>
-    Buffer.from(await res.arrayBuffer()),
-  );
+import { getPlaiceholder, type GetPlaiceholderOptions } from "plaiceholder";
 
-  const data = await getPlaiceholder(buffer);
+async function getBlurData(path: string, options?: GetPlaiceholderOptions) {
+  const buffer = await readFile(path);
+  const data = await getPlaiceholder(buffer, options);
 
   return data;
 }

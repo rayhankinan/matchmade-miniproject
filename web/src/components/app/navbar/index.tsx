@@ -4,9 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function AppNavbar({
+  logoSrc,
+  logoBase64,
   searchBar,
   displayProfile = false,
 }: {
+  logoSrc: string;
+  logoBase64: string;
   searchBar?: React.ReactElement;
   displayProfile?: boolean;
 }) {
@@ -14,10 +18,12 @@ export default function AppNavbar({
     <header className="fixed top-0 z-10 flex h-20 w-full shrink-0 items-center justify-between px-4 md:px-6">
       <div className="flex flex-row items-center gap-2">
         <Image
-          src="/images/raster/logo.png"
-          alt="Logo"
+          src={logoSrc}
+          alt="The Movie Watchlist logo"
           width={40}
           height={40}
+          placeholder="blur"
+          blurDataURL={logoBase64}
         />
         <Link href="/">
           <span className="cursor-pointer text-2xl font-bold">

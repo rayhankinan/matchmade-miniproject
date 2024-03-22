@@ -1,19 +1,18 @@
-"use client";
+import MovieTemplate from "~/components/app/template/MovieTemplate";
+import getBlurData from "~/lib/get-blur-data";
 
-import { motion } from "framer-motion";
+export default async function RootTemplate({
+  children,
+}: React.PropsWithChildren) {
+  const src = "/images/raster/logo.png";
 
-import AppNavbar from "~/components/app/navbar";
-import SearchBar from "~/components/app/main/home/search-bar";
+  const { base64 } = await getBlurData("./public/images/raster/logo.png", {
+    size: 16,
+  });
 
-export default function RootTemplate({ children }: React.PropsWithChildren) {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
-      <AppNavbar searchBar={<SearchBar />} displayProfile />
+    <MovieTemplate logoSrc={src} logoBase64={base64}>
       {children}
-    </motion.div>
+    </MovieTemplate>
   );
 }
