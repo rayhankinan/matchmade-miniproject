@@ -3,6 +3,7 @@ package usecase
 import (
 	"fmt"
 	"service/internal/models"
+	"service/internal/types"
 
 	"github.com/google/uuid"
 )
@@ -42,8 +43,27 @@ func (w *WatchlistUseCase) RemoveMovie(userID uuid.UUID, movieID int64) error {
 	return w.MovieRepo.Delete(userID, movieID)
 }
 
-func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, pageSize int) ([]models.Movie, error) {
-	return w.MovieRepo.FindByUserID(userID, title, page, pageSize)
+func (w *WatchlistUseCase) GetMovies(userID uuid.UUID, title string, page int, pageSize int) (types.MovieResponse, error) {
+	movie, err := w.MovieRepo.FindByUserID(userID, title, page, pageSize)
+	if err != nil {
+		return types.MovieResponse{}, err
+	}
+
+	totalResults, err := w.MovieRepo.CountByUserID(userID, title)
+	if err != nil {
+		return types.MovieResponse{}, err
+	}
+
+	totalPages := totalResults / int64(pageSize)
+	if totalResults%int64(pageSize) > 0 {
+		totalPages++
+	}
+
+	return types.MovieResponse{
+		TotalResults: int64(totalResults),
+		TotalPages:   int64(totalPages),
+		Movies:       movie,
+	}, nil
 }
 
 func (w *WatchlistUseCase) GiveRating(userID uuid.UUID, movieID int64, rating int64) error {

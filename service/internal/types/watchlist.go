@@ -18,6 +18,12 @@ type RatingRequest struct {
 	Rating int64 `json:"rating" validate:"required,gte=1,lte=5"`
 }
 
+type MovieResponse struct {
+	TotalResults int64          `json:"totalResults"`
+	TotalPages   int64          `json:"totalPages"`
+	Movies       []models.Movie `json:"movies"`
+}
+
 func (m *MovieRequest) ToMovie(userID uuid.UUID) (models.Movie, error) {
 	var image sql.NullString
 	if m.Image != nil {

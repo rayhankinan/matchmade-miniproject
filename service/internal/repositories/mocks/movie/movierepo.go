@@ -41,3 +41,8 @@ func (_m *MockMovieRepo) IsExist(userID uuid.UUID, movieID int64) (bool, error) 
 	ret := _m.Called(userID, movieID)
 	return ret.Bool(0), ret.Error(1)
 }
+
+func (_m *MockMovieRepo) CountByUserID(userID uuid.UUID, title string) (int64, error) {
+	ret := _m.Called(userID, title)
+	return ret.Get(0).(int64), ret.Error(1)
+}

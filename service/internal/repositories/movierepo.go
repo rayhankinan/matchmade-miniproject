@@ -68,3 +68,19 @@ func (c *GormMovieRepo) IsExist(userID uuid.UUID, movieID int64) (bool, error) {
 
 	return count > 0, nil
 }
+
+func (c *GormMovieRepo) CountByUserID(userID uuid.UUID, title string) (int64, error) {
+	var count int64
+	query := c.DB.Model(&models.Movie{}).Where("user_id = ?", userID)
+
+	if title != "" {
+		query = query.Where("title ILIKE ?", fmt.Sprintf("%%%s%%", title))
+	}
+
+	err := query.Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return count, nil
+}

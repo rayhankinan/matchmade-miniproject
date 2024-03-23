@@ -27,4 +27,5 @@ type MovieRepository interface {
 	FindByID(userID uuid.UUID, movieID int64) (*Movie, error)
 	UpdateRating(userID uuid.UUID, movieID int64, rating int64) error
 	IsExist(userID uuid.UUID, movieID int64) (bool, error)
+	CountByUserID(userID uuid.UUID, title string) (int64, error)
 }

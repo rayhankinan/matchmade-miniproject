@@ -72,13 +72,16 @@ func TestGetMovies(t *testing.T) {
 
 	// Setup expectations
 	mockMovieRepo.On("FindByUserID", userID, testMovie.Title, 1, 10).Return([]models.Movie{testMovie}, nil)
+	mockMovieRepo.On("CountByUserID", userID, testMovie.Title).Return(int64(1), nil)
 
 	// Execute the method under test
 	result, err := watchlistUseCase.GetMovies(userID, testMovie.Title, 1, 10)
 
 	// Assertions
 	assert.NoError(t, err)
-	assert.Equal(t, testMovie.Title, result[0].Title)
+	assert.Equal(t, int64(1), result.TotalResults)
+	assert.Equal(t, int64(1), result.TotalPages)
+	assert.Equal(t, testMovie.Title, result.Movies[0].Title)
 	mockMovieRepo.AssertExpectations(t)
 }
 
