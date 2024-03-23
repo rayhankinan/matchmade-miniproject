@@ -137,15 +137,19 @@ export default function MovieDialog({
                 </Carousel>
               </div>
             )}
-            <DialogFooter className="flex flex-row items-center justify-center gap-4">
+            <DialogFooter className="md:justify-center">
               {session ? (
-                <AddToWatchlistButton
-                  id={id}
-                  title={detailData.data.title}
-                  posterPath={detailData.data.poster_path}
-                  enabled={open}
-                  onChange={refreshOnChange ? () => setOpen(false) : undefined}
-                />
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <AddToWatchlistButton
+                    id={id}
+                    title={detailData.data.title}
+                    posterPath={detailData.data.poster_path}
+                    enabled={open}
+                    onChange={
+                      refreshOnChange ? () => setOpen(false) : undefined
+                    }
+                  />
+                </div>
               ) : (
                 <Button variant="link">
                   <Link href="/login">Login to add to watchlist</Link>
