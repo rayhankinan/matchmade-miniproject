@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 
 import AppNavbar from "~/components/app/navbar";
-import SearchBar from "~/components/app/main/home/search-bar";
 
 export default function MovieTemplate({
   logoSrc,
@@ -19,7 +18,8 @@ export default function MovieTemplate({
       <AppNavbar
         logoSrc={logoSrc}
         logoBase64={logoBase64}
-        searchBar={<SearchBar />}
+        displayNavigationMenu
+        displaySearchBar
         displayProfile
       />
       {children}

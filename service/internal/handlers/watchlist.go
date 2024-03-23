@@ -115,6 +115,7 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 
 	return utils.SendPaginatedResponse(c, http.StatusOK, types.PaginatedResponse{
 		Data:         result["movies"],
+		Page:         int64(page),
 		TotalPages:   result["total_pages"].(int64),
 		TotalResults: result["total_results"].(int64),
 	})

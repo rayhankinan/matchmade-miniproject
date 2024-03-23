@@ -8,24 +8,33 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 import MovieClickable from "~/components/app/main/movie/movie-clickable";
 import Spinner from "~/components/app/icon/spinner";
-import movieApi from "~/client/movie-api";
+import api from "~/client/api";
 
-interface DiscoverMovieResponse {
+interface DiscoverWatchlistResponse {
   page: number;
   total_pages: number;
   total_results: number;
-  results: {
-    id: number;
-    title: string;
-    poster_path: string | null;
+  data: {
+    MovieID: number;
+    Title: string;
+    Image: {
+      String: string;
+      Valid: boolean;
+    };
+    Rating: {
+      Int64: number;
+      Valid: boolean;
+    };
   }[];
 }
 
-export default function DiscoverMovie() {
-  const discoverMovieQuery = useInfiniteQuery({
-    queryKey: ["trending-movie"],
+export default function DiscoverWatchlist() {
+  const discoverWatchlistQuery = useInfiniteQuery({
+    queryKey: ["discover-watchlist"],
     queryFn: async ({ pageParam }) =>
-      movieApi.get<DiscoverMovieResponse>(`/discover/movie?page=${pageParam}`),
+      await api.get<DiscoverWatchlistResponse>(
+        `/movies/watchlist?page=${pageParam}&pageSize=20`,
+      ),
     initialPageParam: 1,
     getNextPageParam: (currentResponse) =>
       currentResponse.data.page < currentResponse.data.total_pages
@@ -41,7 +50,7 @@ export default function DiscoverMovie() {
     isFetching,
     isFetchingNextPage,
     status,
-  } = discoverMovieQuery;
+  } = discoverWatchlistQuery;
 
   const observerTarget = useRef<HTMLDivElement>(null);
 
@@ -84,13 +93,13 @@ export default function DiscoverMovie() {
       <div className="container flex flex-row flex-wrap items-center justify-center gap-12">
         {data.pages.map((page, index) => (
           <Fragment key={index}>
-            {page.data.results.map((movie) => (
+            {page.data.data.map((movie) => (
               <MovieClickable
-                key={movie.id}
+                key={movie.MovieID}
                 data={{
-                  id: movie.id,
-                  title: movie.title,
-                  posterPath: movie.poster_path,
+                  id: movie.MovieID,
+                  title: movie.Title,
+                  posterPath: movie.Image.Valid ? movie.Image.String : null,
                 }}
               />
             ))}
