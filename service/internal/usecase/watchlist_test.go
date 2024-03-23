@@ -77,11 +77,16 @@ func TestGetMovies(t *testing.T) {
 	// Execute the method under test
 	result, err := watchlistUseCase.GetMovies(userID, testMovie.Title, 1, 10)
 
+	// Get the result
+	totalResults := result["total_results"].(int64)
+	totalPages := result["total_pages"].(int64)
+	movies := result["movies"].([]models.Movie)
+
 	// Assertions
 	assert.NoError(t, err)
-	assert.Equal(t, int64(1), result.TotalResults)
-	assert.Equal(t, int64(1), result.TotalPages)
-	assert.Equal(t, testMovie.Title, result.Movies[0].Title)
+	assert.Equal(t, int64(1), totalResults)
+	assert.Equal(t, int64(1), totalPages)
+	assert.Equal(t, testMovie.Title, movies[0].Title)
 	mockMovieRepo.AssertExpectations(t)
 }
 

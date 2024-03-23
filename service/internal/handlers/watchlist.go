@@ -105,7 +105,7 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 		return utils.SendError(c, http.StatusUnauthorized, types.ErrorResponse{Message: "Not authorized to perform this action"})
 	}
 
-	movies, err := h.WatchlistUseCase.GetMovies(UserID, title, page, pageSize)
+	result, err := h.WatchlistUseCase.GetMovies(UserID, title, page, pageSize)
 	if err != nil {
 		log.Println(err)
 		return utils.SendError(c, http.StatusInternalServerError, types.ErrorResponse{Message: "Failed to get movies from watchlist"})
@@ -113,7 +113,11 @@ func (h *WatchlistHandler) GetMovies(c echo.Context) error {
 
 	log.Println("Movies retrieved successfully")
 
-	return utils.SendResponse(c, http.StatusOK, types.SuccessResponse{Data: movies})
+	return utils.SendPaginatedResponse(c, http.StatusOK, types.PaginatedResponse{
+		Data:         result["movies"],
+		TotalPages:   result["total_pages"].(int64),
+		TotalResults: result["total_results"].(int64),
+	})
 }
 
 func (h *WatchlistHandler) GiveRating(c echo.Context) error {

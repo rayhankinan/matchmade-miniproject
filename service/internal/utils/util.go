@@ -40,6 +40,10 @@ func SendResponse(c echo.Context, code int, data types.SuccessResponse) error {
 	return c.JSON(code, data)
 }
 
+func SendPaginatedResponse(c echo.Context, code int, data types.PaginatedResponse) error {
+	return c.JSON(code, data)
+}
+
 func SendError(c echo.Context, code int, message types.ErrorResponse) error {
 	return c.JSON(code, message)
 }
