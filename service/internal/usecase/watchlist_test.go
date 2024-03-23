@@ -46,7 +46,7 @@ func TestRemoveMovie(t *testing.T) {
 	movieID := int64(123)
 
 	// Setup expectations
-	mockMovieRepo.On("Delete", movieID).Return(nil)
+	mockMovieRepo.On("Delete", userID, movieID).Return(nil)
 
 	// Execute the method under test
 	err := watchlistUseCase.RemoveMovie(userID, movieID)
@@ -90,8 +90,8 @@ func TestGiveRating(t *testing.T) {
 	rating := int64(5)
 
 	// Setup expectations
-	mockMovieRepo.On("FindByID", movieID).Return(&models.Movie{}, nil)
-	mockMovieRepo.On("UpdateRating", movieID, rating).Return(nil)
+	mockMovieRepo.On("FindByID", userID, movieID).Return(&models.Movie{}, nil)
+	mockMovieRepo.On("UpdateRating", userID, movieID, rating).Return(nil)
 
 	// Execute the method under test
 	err := watchlistUseCase.GiveRating(userID, movieID, rating)
