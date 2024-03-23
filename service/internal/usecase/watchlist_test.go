@@ -126,3 +126,21 @@ func TestIsExist(t *testing.T) {
 	assert.True(t, result)
 	mockMovieRepo.AssertExpectations(t)
 }
+
+func TestGetRating(t *testing.T) {
+	mockMovieRepo := new(movie.MockMovieRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
+	userID := uuid.New()
+	movieID := int64(123)
+
+	// Setup expectations
+	mockMovieRepo.On("GetRating", userID, movieID).Return(int64(5), nil)
+
+	// Execute the method under test
+	result, err := watchlistUseCase.GetRating(userID, movieID)
+
+	// Assertions
+	assert.NoError(t, err)
+	assert.Equal(t, int64(5), result)
+	mockMovieRepo.AssertExpectations(t)
+}

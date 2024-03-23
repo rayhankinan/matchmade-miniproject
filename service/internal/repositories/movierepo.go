@@ -84,3 +84,13 @@ func (c *GormMovieRepo) CountByUserID(userID uuid.UUID, title string) (int64, er
 
 	return count, nil
 }
+
+func (c *GormMovieRepo) GetRating(userID uuid.UUID, movieID int64) (int64, error) {
+	var movie models.Movie
+	err := c.DB.Select("rating").First(&movie, "user_id = ? AND movie_id = ?", userID, movieID).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return movie.Rating.Int64, nil
+}

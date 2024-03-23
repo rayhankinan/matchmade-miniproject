@@ -46,3 +46,8 @@ func (_m *MockMovieRepo) CountByUserID(userID uuid.UUID, title string) (int64, e
 	ret := _m.Called(userID, title)
 	return ret.Get(0).(int64), ret.Error(1)
 }
+
+func (_m *MockMovieRepo) GetRating(userID uuid.UUID, movieID int64) (int64, error) {
+	ret := _m.Called(userID, movieID)
+	return ret.Get(0).(int64), ret.Error(1)
+}
