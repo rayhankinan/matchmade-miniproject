@@ -5,15 +5,17 @@ import { env } from "~/env";
 
 export default function MovieClickable({
   data: { id, title, posterPath },
+  refreshOnChange,
 }: {
   data: {
     id: number;
     title: string;
     posterPath: string | null;
   };
+  refreshOnChange?: boolean;
 }) {
   return (
-    <MovieDialog id={id}>
+    <MovieDialog id={id} refreshOnChange={refreshOnChange}>
       {posterPath ? (
         <div className="relative h-[375px] w-[250px] cursor-pointer transition-all hover:scale-[1.05] hover:shadow-md">
           <Image

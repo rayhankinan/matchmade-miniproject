@@ -17,11 +17,13 @@ export default function AddToWatchlistButton({
   title,
   posterPath,
   enabled,
+  onChange,
 }: {
   id: number;
   title: string;
   posterPath: string | null;
   enabled: boolean;
+  onChange?: () => void;
 }) {
   const { toast } = useToast();
 
@@ -48,8 +50,19 @@ export default function AddToWatchlistButton({
         image: posterPath,
       }),
     onSuccess: async () => {
-      // TODO: Invalidate watchlist query to improve UX
+      // Call onChange to update the UI
+      if (onChange) onChange();
 
+      // Invalidate watchlist query to improve UX
+      await queryClient.invalidateQueries({
+        queryKey: ["discover-watchlist"],
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: ["search-watchlist"],
+      });
+
+      // Invalidate is-movie-in-watchlist query to update the button state
       await queryClient.invalidateQueries({
         queryKey: ["is-movie-in-watchlist", id],
       });
@@ -69,8 +82,19 @@ export default function AddToWatchlistButton({
   const removeFromWatchlistMutation = useMutation({
     mutationFn: async () => api.delete(`/movies/remove/${id}`),
     onSuccess: async () => {
-      // TODO: Invalidate watchlist query to improve UX
+      // Call onChange to update the UI
+      if (onChange) onChange();
 
+      // Invalidate watchlist query to improve UX
+      await queryClient.invalidateQueries({
+        queryKey: ["discover-watchlist"],
+      });
+
+      await queryClient.invalidateQueries({
+        queryKey: ["search-watchlist"],
+      });
+
+      // Invalidate is-movie-in-watchlist query to update the button state
       await queryClient.invalidateQueries({
         queryKey: ["is-movie-in-watchlist", id],
       });

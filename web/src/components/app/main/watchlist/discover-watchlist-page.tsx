@@ -101,6 +101,7 @@ export default function DiscoverWatchlist() {
                   title: movie.Title,
                   posterPath: movie.Image.Valid ? movie.Image.String : null,
                 }}
+                refreshOnChange
               />
             ))}
           </Fragment>

@@ -48,8 +48,9 @@ interface MovieDetailResponse {
 
 export default function MovieDialog({
   id,
+  refreshOnChange = false,
   children,
-}: React.PropsWithChildren<{ id: number }>) {
+}: React.PropsWithChildren<{ id: number; refreshOnChange?: boolean }>) {
   const [open, setOpen] = useState(false);
 
   const session = useSession();
@@ -143,6 +144,7 @@ export default function MovieDialog({
                   title={detailData.data.title}
                   posterPath={detailData.data.poster_path}
                   enabled={open}
+                  onChange={refreshOnChange ? () => setOpen(false) : undefined}
                 />
               ) : (
                 <Button variant="link">

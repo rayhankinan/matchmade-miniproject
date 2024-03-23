@@ -101,6 +101,7 @@ export default function SearchWatchlist({ title }: { title: string }) {
                   title: movie.Title,
                   posterPath: movie.Image.Valid ? movie.Image.String : null,
                 }}
+                refreshOnChange
               />
             ))}
           </Fragment>
