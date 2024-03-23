@@ -9,6 +9,7 @@ import SessionProvider from "~/providers/auth";
 import getSession from "~/server/auth";
 import { cn } from "~/lib/utils";
 
+import "@smastrom/react-rating/style.css";
 import "~/styles/globals.css";
 
 const inter = Inter({

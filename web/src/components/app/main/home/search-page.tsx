@@ -74,7 +74,7 @@ export default function SearchMovie({ query }: { query: string }) {
 
   if (status === "error")
     return (
-      <Alert variant="destructive">
+      <Alert variant="destructive" className="w-1/2">
         <ExclamationTriangleIcon className="h-4 w-4" />
         <AlertTitle>Error</AlertTitle>
         <AlertDescription>{error.message}</AlertDescription>

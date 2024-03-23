@@ -83,7 +83,7 @@ export default function MovieDialog({
             <DialogHeader>
               <DialogTitle>Error</DialogTitle>
             </DialogHeader>
-            <Alert variant="destructive">
+            <Alert variant="destructive" className="w-1/2">
               <ExclamationTriangleIcon className="h-4 w-4" />
               <AlertTitle>Error</AlertTitle>
               <AlertDescription>{detailError.message}</AlertDescription>
@@ -115,13 +115,13 @@ export default function MovieDialog({
               </div>
             </DialogHeader>
             {detailData.data.videos.results.length > 0 && (
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center justify-center gap-4">
                 <Carousel className="w-full max-w-md">
                   <CarouselContent>
                     {detailData.data.videos.results.map((video) => (
                       <CarouselItem
                         key={video.key}
-                        className="flex flex-col items-center justify-center"
+                        className="flex items-center justify-center"
                       >
                         <MovieTrailer
                           data={{
@@ -137,8 +137,8 @@ export default function MovieDialog({
                 </Carousel>
               </div>
             )}
-            <DialogFooter className="sm:justify-center">
-              {session !== null ? (
+            <DialogFooter className="flex flex-row items-center justify-center gap-4">
+              {session ? (
                 <AddToWatchlistButton
                   id={id}
                   title={detailData.data.title}

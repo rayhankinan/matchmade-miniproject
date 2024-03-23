@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "~/components/ui/alert";
 
 export default function LoginAlert() {
   return (
-    <Alert className="w-1/3">
+    <Alert className="w-1/2">
       <RocketIcon className="h-4 w-4" />
       <AlertTitle>Heads up!</AlertTitle>
       <AlertDescription>

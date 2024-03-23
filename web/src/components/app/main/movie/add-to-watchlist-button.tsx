@@ -5,6 +5,7 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
 
+import MovieRating from "~/components/app/main/movie/movie-rating";
 import Spinner from "~/components/app/icon/spinner";
 import api from "~/client/api";
 
@@ -43,12 +44,11 @@ export default function AddToWatchlistButton({
   } = isMovieInWatchlistQuery;
 
   const addToWatchlistMutation = useMutation({
-    mutationFn: async () =>
-      api.post(`/movies/add`, {
-        movieID: id,
-        title,
-        image: posterPath,
-      }),
+    mutationFn: async (data: {
+      movieID: number;
+      title: string;
+      image: string | null;
+    }) => api.post(`/movies/add`, data),
     onSuccess: async () => {
       // Call onChange to update the UI
       if (onChange) onChange();
@@ -120,7 +120,7 @@ export default function AddToWatchlistButton({
       </Button>
     );
 
-  if (isMovieInWatchlistError)
+  if (isMovieInWatchlistStatus === "error")
     return (
       <Button disabled variant="secondary">
         Error occured: {isMovieInWatchlistError.message}
@@ -128,22 +128,30 @@ export default function AddToWatchlistButton({
     );
 
   return (
-    <Button
-      variant={isMovieInWatchlistData.data.data ? "destructive" : "default"}
-      onClick={
-        isMovieInWatchlistData.data.data
-          ? () => mutateRemoveFromWatchlist()
-          : () => mutateAddToWatclist()
-      }
-      disabled={
-        isMovieInWatchlistData.data.data
-          ? isRemoveFromWatchlistPending
-          : isAddToWatchlistPending
-      }
-    >
-      {isMovieInWatchlistData.data.data
-        ? "Remove from watchlist"
-        : "Add to watchlist"}
-    </Button>
+    <>
+      <MovieRating id={id} enabled={isMovieInWatchlistData.data.data} />
+      <Button
+        variant={isMovieInWatchlistData.data.data ? "destructive" : "default"}
+        onClick={
+          isMovieInWatchlistData.data.data
+            ? () => mutateRemoveFromWatchlist()
+            : () =>
+                mutateAddToWatclist({
+                  movieID: id,
+                  title,
+                  image: posterPath,
+                })
+        }
+        disabled={
+          isMovieInWatchlistData.data.data
+            ? isRemoveFromWatchlistPending
+            : isAddToWatchlistPending
+        }
+      >
+        {isMovieInWatchlistData.data.data
+          ? "Remove from watchlist"
+          : "Add to watchlist"}
+      </Button>
+    </>
   );
 }
