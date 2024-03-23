@@ -1,6 +1,6 @@
 "use client";
 
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
@@ -25,6 +25,8 @@ export default function AddToWatchlistButton({
 }) {
   const { toast } = useToast();
 
+  const queryClient = useQueryClient();
+
   const isMovieInWatchlistQuery = useQuery({
     queryKey: ["is-movie-in-watchlist", id],
     queryFn: async () =>
@@ -46,7 +48,11 @@ export default function AddToWatchlistButton({
         image: posterPath,
       }),
     onSuccess: async () => {
-      await isMovieInWatchlistQuery.refetch();
+      // TODO: Invalidate search-watchlist query
+
+      await queryClient.invalidateQueries({
+        queryKey: ["is-movie-in-watchlist", id],
+      });
     },
     onError: (error) => {
       toast({
@@ -63,7 +69,11 @@ export default function AddToWatchlistButton({
   const removeFromWatchlistMutation = useMutation({
     mutationFn: async () => api.delete(`/movies/remove/${id}`),
     onSuccess: async () => {
-      await isMovieInWatchlistQuery.refetch();
+      // TODO: Invalidate watchlist query
+
+      await queryClient.invalidateQueries({
+        queryKey: ["is-movie-in-watchlist", id],
+      });
     },
     onError: (error) => {
       toast({
