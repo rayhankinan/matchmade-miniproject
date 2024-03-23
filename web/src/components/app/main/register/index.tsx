@@ -148,15 +148,12 @@ export default function RegisterForm() {
               )}
             />
 
-            <br />
-            <FormLabel>
-              <div className="text-sm">
-                Already have an account?{" "}
-                <Button variant="link">
-                  <Link href="/login">Login here</Link>
-                </Button>
-              </div>
-            </FormLabel>
+            <div className="text-sm">
+              Already have an account?{" "}
+              <Button variant="link">
+                <Link href="/login">Login here</Link>
+              </Button>
+            </div>
           </CardContent>
 
           <CardFooter className="flex flex-col items-center justify-center">

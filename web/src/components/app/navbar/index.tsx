@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 
 import Profile from "~/components/app/navbar/profile";
@@ -26,16 +25,11 @@ export default function AppNavbar({
           <Image
             src={logoSrc}
             alt="The Movie Watchlist logo"
-            width={40}
-            height={40}
+            width={60}
+            height={60}
             placeholder="blur"
             blurDataURL={logoBase64}
           />
-          <Link href="/">
-            <span className="cursor-pointer text-2xl font-bold">
-              The Movie Watchlist
-            </span>
-          </Link>
         </div>
         {displayNavigationMenu && <AppNavigationMenu />}
       </div>

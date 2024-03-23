@@ -121,15 +121,12 @@ export default function LoginForm() {
               )}
             />
 
-            <br />
-            <FormLabel>
-              <div className="text-sm">
-                Don&apos;t have an account?{" "}
-                <Button variant="link">
-                  <Link href="/register">Register here</Link>
-                </Button>
-              </div>
-            </FormLabel>
+            <div className="text-sm">
+              Don&apos;t have an account?{" "}
+              <Button variant="link">
+                <Link href="/register">Register here</Link>
+              </Button>
+            </div>
           </CardContent>
 
           <CardFooter className="flex flex-col items-center justify-center">

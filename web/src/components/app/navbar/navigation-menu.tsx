@@ -13,18 +13,26 @@ import useSession from "~/hooks/auth";
 export default function AppNavigationMenu() {
   const session = useSession();
 
-  if (!session) return null;
-
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link href="/watchlist" legacyBehavior passHref>
+          <Link href="/" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Watchlist
+              <span className="text-lg font-bold">Home</span>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
+
+        {session && (
+          <NavigationMenuItem>
+            <Link href="/watchlist" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <span className="text-lg font-bold">Watchlist</span>
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
     </NavigationMenu>
   );

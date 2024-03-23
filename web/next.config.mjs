@@ -20,5 +20,4 @@ const config = {
   },
 };
 
-// TODO: Utilize "plaiceholder" to blur the images in server-side rendering.
 export default withPlaiceholder(config);

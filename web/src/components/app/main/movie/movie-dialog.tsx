@@ -145,7 +145,7 @@ export default function MovieDialog({
                   enabled={open}
                 />
               ) : (
-                <Button asChild>
+                <Button variant="link">
                   <Link href="/login">Login to add to watchlist</Link>
                 </Button>
               )}

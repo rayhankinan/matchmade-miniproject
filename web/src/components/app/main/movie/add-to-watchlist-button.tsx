@@ -48,7 +48,7 @@ export default function AddToWatchlistButton({
         image: posterPath,
       }),
     onSuccess: async () => {
-      // TODO: Invalidate search-watchlist query
+      // TODO: Invalidate watchlist query to improve UX
 
       await queryClient.invalidateQueries({
         queryKey: ["is-movie-in-watchlist", id],
@@ -69,7 +69,7 @@ export default function AddToWatchlistButton({
   const removeFromWatchlistMutation = useMutation({
     mutationFn: async () => api.delete(`/movies/remove/${id}`),
     onSuccess: async () => {
-      // TODO: Invalidate watchlist query
+      // TODO: Invalidate watchlist query to improve UX
 
       await queryClient.invalidateQueries({
         queryKey: ["is-movie-in-watchlist", id],
