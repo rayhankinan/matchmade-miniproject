@@ -7,11 +7,20 @@ import (
 	"service/internal/usecase"
 
 	"github.com/labstack/echo/v4"
+	echoMiddleware "github.com/labstack/echo/v4/middleware"
 	"gorm.io/gorm"
 )
 
 func CreateRoute(db *gorm.DB) *echo.Echo {
 	e := echo.New()
+
+	e.Use(echoMiddleware.Logger())
+	e.Use(echoMiddleware.CORSWithConfig(echoMiddleware.CORSConfig{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{echo.GET, echo.POST, echo.PATCH, echo.DELETE},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowCredentials: true,
+	}))
 
 	userRepo := repositories.NewGormUserRepo(db)
 	authUsecase := usecase.NewAuthUseCase(userRepo)
