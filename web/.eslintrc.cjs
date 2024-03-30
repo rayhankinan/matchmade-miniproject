@@ -37,6 +37,6 @@ const config = {
       },
     ],
   },
-  ignorePatterns: ["**/components/ui/*.tsx", "**/lib/utils.ts"],
+  ignorePatterns: ["**/components/ui/*.tsx", "**/lib/utils.ts", "README.md"],
 };
 module.exports = config;

@@ -1,29 +1,159 @@
-# Create T3 App
+# Frontend Application
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a frontend application that provides a simple movie watchlist application.
 
-## What's next? How do I make an app with this?
+## Contents
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+The contents of the README are as follows:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [Frontend Application](#frontend-application)
+  - [Contents](#contents)
+  - [Stack](#stack)
+  - [File Structure](#file-structure)
+  - [Pages](#pages)
+    - [Register](#register)
+    - [Login](#login)
+    - [Discover Movies](#discover-movies)
+    - [Search Movies](#search-movies)
+    - [Discover Watchlist](#discover-watchlist)
+    - [Search Watchlist](#search-watchlist)
+    - [Movie Details](#movie-details)
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Stack
 
-## Learn More
+The application is built using the following stack:
+- React
+- Next (App Router)
+- TypeScript
+- Tailwind CSS
+- Shadcn (UI Components)
+- Axios
+- TanStack React Query
+- Docker
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## File Structure
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+The file structure of the service is as follows:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```
+Web
+├── Dockerfile
+├── README.md
+├── components.json
+├── next-env.d.ts
+├── next.config.mjs
+├── package.json
+├── postcss.config.cjs
+├── prettier.config.js
+├── public
+│   ├── favicon.ico
+│   └── images
+│       ├── raster
+│       │   └── logo.png
+│       └── vector
+│           └── placeholder.svg
+├── src
+│   ├── app
+│   │   ├── (main)
+│   │   │   ├── page.tsx
+│   │   │   ├── template.tsx
+│   │   │   └── watchlist
+│   │   │       └── page.tsx
+│   │   ├── (user)
+│   │   │   ├── login
+│   │   │   │   └── page.tsx
+│   │   │   ├── register
+│   │   │   │   └── page.tsx
+│   │   │   └── template.tsx
+│   │   └── layout.tsx
+│   ├── client
+│   │   ├── api.ts
+│   │   └── movie-api.ts
+│   ├── components
+│   │   ├── app
+│   │   │   ├── icon
+│   │   │   │   └── spinner.tsx
+│   │   │   ├── main
+│   │   │   │   ├── home
+│   │   │   │   │   ├── discover-page.tsx
+│   │   │   │   │   └── search-page.tsx
+│   │   │   │   ├── login
+│   │   │   │   │   └── index.tsx
+│   │   │   │   ├── movie
+│   │   │   │   │   ├── add-to-watchlist-button.tsx
+│   │   │   │   │   ├── movie-clickable.tsx
+│   │   │   │   │   ├── movie-dialog.tsx
+│   │   │   │   │   ├── movie-rating.tsx
+│   │   │   │   │   └── movie-trailer.tsx
+│   │   │   │   ├── register
+│   │   │   │   │   └── index.tsx
+│   │   │   │   └── watchlist
+│   │   │   │       ├── discover-watchlist-page.tsx
+│   │   │   │       └── search-watchlist-page.tsx
+│   │   │   ├── navbar
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── mode-toggle.tsx
+│   │   │   │   ├── navigation-menu.tsx
+│   │   │   │   ├── profile.tsx
+│   │   │   │   └── search-bar.tsx
+│   │   │   ├── template
+│   │   │   │   ├── AuthTemplate.tsx
+│   │   │   │   └── MovieTemplate.tsx
+│   │   │   └── warning
+│   │   │       ├── login-alert.tsx
+│   │   │       └── watchlist-alert.tsx
+│   │   └── ui
+│   │       ├── alert.tsx
+│   │       ├── avatar.tsx
+│   │       ├── button.tsx
+│   │       ├── card.tsx
+│   │       ├── carousel.tsx
+│   │       ├── dialog.tsx
+│   │       ├── dropdown-menu.tsx
+│   │       ├── form.tsx
+│   │       ├── input.tsx
+│   │       ├── label.tsx
+│   │       ├── navigation-menu.tsx
+│   │       ├── toast.tsx
+│   │       ├── toaster.tsx
+│   │       └── use-toast.ts
+│   ├── context
+│   │   └── auth.ts
+│   ├── env.js
+│   ├── hooks
+│   │   └── auth.ts
+│   ├── lib
+│   │   ├── get-blur-data.ts
+│   │   └── utils.ts
+│   ├── providers
+│   │   ├── auth.tsx
+│   │   ├── client.tsx
+│   │   └── theme.tsx
+│   ├── server
+│   │   └── auth.ts
+│   ├── styles
+│   │   └── globals.css
+│   └── types
+│       └── jwt-payload.ts
+├── tailwind.config.ts
+├── tsconfig.json
+└── yarn.lock
+```
 
-## How do I deploy this?
+## Pages
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+The application provides the following pages:
+
+### Register
+
+### Login
+
+### Discover Movies
+
+### Search Movies
+
+### Discover Watchlist
+
+### Search Watchlist
+
+### Movie Details
