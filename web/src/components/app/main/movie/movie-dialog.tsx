@@ -73,7 +73,7 @@ export default function MovieDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="max-h-screen overflow-y-scroll">
+      <DialogContent>
         {detailStatus === "pending" ? (
           <div className="flex items-center justify-center">
             <Spinner />
