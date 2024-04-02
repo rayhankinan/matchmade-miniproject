@@ -99,21 +99,17 @@ export default function MovieDialog({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle>
-                <p className="text-xl">{detailData.data.title}</p>
+              <DialogTitle className="text-xl">
+                {detailData.data.title}
               </DialogTitle>
-              <DialogDescription>
-                <div className="text-md">
-                  &quot;{detailData.data.overview}&quot;
-                </div>
-              </DialogDescription>
-              <div className="flex items-center pt-2">
-                <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
-                <span className="text-xs text-muted-foreground">
-                  Released on {detailData.data.release_date}
-                </span>
-              </div>
+              <DialogDescription>{detailData.data.overview}</DialogDescription>
             </DialogHeader>
+            <p className="flex items-center pt-2">
+              <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />{" "}
+              <span className="text-xs text-muted-foreground">
+                Released on {detailData.data.release_date}
+              </span>
+            </p>
             {detailData.data.videos.results.length > 0 && (
               <div className="flex flex-col items-center justify-center gap-4">
                 <Carousel className="w-full max-w-md">
