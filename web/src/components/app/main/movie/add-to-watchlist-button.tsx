@@ -6,6 +6,7 @@ import { Button } from "~/components/ui/button";
 import { useToast } from "~/components/ui/use-toast";
 
 import MovieRating from "~/components/app/main/movie/movie-rating";
+import MovieTags from "~/components/app/main/movie/movie-tags";
 import Spinner from "~/components/app/icon/spinner";
 import api from "~/client/api";
 
@@ -33,7 +34,9 @@ export default function AddToWatchlistButton({
   const isMovieInWatchlistQuery = useQuery({
     queryKey: ["is-movie-in-watchlist", id],
     queryFn: async () =>
-      api.get<IsMovieInWatchlistResponse>(`/movies/watchlist/exist/${id}`),
+      await api.get<IsMovieInWatchlistResponse>(
+        `/movies/watchlist/exist/${id}`,
+      ),
     enabled,
   });
 
@@ -76,11 +79,11 @@ export default function AddToWatchlistButton({
     },
   });
 
-  const { mutate: mutateAddToWatclist, isPending: isAddToWatchlistPending } =
+  const { mutate: mutateAddToWatchlist, isPending: isAddToWatchlistPending } =
     addToWatchlistMutation;
 
   const removeFromWatchlistMutation = useMutation({
-    mutationFn: async () => api.delete(`/movies/remove/${id}`),
+    mutationFn: async () => await api.delete(`/movies/remove/${id}`),
     onSuccess: async () => {
       // Call onChange to update the UI
       if (onChange) onChange();
@@ -130,13 +133,14 @@ export default function AddToWatchlistButton({
   return (
     <>
       <MovieRating id={id} enabled={isMovieInWatchlistData.data.data} />
+      <MovieTags id={id} enabled={isMovieInWatchlistData.data.data} />
       <Button
         variant={isMovieInWatchlistData.data.data ? "destructive" : "default"}
         onClick={
           isMovieInWatchlistData.data.data
             ? () => mutateRemoveFromWatchlist()
             : () =>
-                mutateAddToWatclist({
+                mutateAddToWatchlist({
                   movieID: id,
                   title,
                   image: posterPath,

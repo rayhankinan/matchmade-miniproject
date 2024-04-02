@@ -26,7 +26,7 @@ export default function MovieRating({
 
   const getRatingQuery = useQuery({
     queryKey: ["movie-rating", id],
-    queryFn: async () => api.get<RatingResponse>(`/movies/rate/${id}`),
+    queryFn: async () => await api.get<RatingResponse>(`/movies/rate/${id}`),
     enabled,
   });
 

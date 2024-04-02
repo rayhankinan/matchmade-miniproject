@@ -58,7 +58,7 @@ export default function MovieDialog({
   const detailQuery = useQuery({
     queryKey: ["movie-detail", id],
     queryFn: async () =>
-      movieApi.get<MovieDetailResponse>(
+      await movieApi.get<MovieDetailResponse>(
         `/movie/${id}?append_to_response=videos`,
       ),
     enabled: open,
@@ -100,7 +100,7 @@ export default function MovieDialog({
           <>
             <DialogHeader>
               <DialogTitle>
-                <div className="text-xl">{detailData.data.title}</div>
+                <p className="text-xl">{detailData.data.title}</p>
               </DialogTitle>
               <DialogDescription>
                 <div className="text-md">
