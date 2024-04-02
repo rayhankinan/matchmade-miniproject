@@ -81,3 +81,7 @@ func (w *WatchlistUseCase) IsExist(userID uuid.UUID, movieID int64) (bool, error
 func (w *WatchlistUseCase) GetRating(userID uuid.UUID, movieID int64) (int64, error) {
 	return w.MovieRepo.GetRating(userID, movieID)
 }
+
+func (w *WatchlistUseCase) GetTags(userID uuid.UUID, movieID int64) ([]string, error) {
+	return w.MovieRepo.GetTags(userID, movieID)
+}

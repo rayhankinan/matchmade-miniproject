@@ -94,3 +94,13 @@ func (c *GormMovieRepo) GetRating(userID uuid.UUID, movieID int64) (int64, error
 
 	return movie.Rating.Int64, nil
 }
+
+func (c *GormMovieRepo) GetTags(userID uuid.UUID, movieID int64) ([]string, error) {
+	var movie models.Movie
+	err := c.DB.Select("tags").First(&movie, "user_id = ? AND movie_id = ?", userID, movieID).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return movie.Tags, nil
+}

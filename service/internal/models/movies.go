@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/lib/pq"
 )
 
 type Movie struct {
@@ -14,8 +15,9 @@ type Movie struct {
 	Title     string    `gorm:"not null"`
 	Image     sql.NullString
 	Rating    sql.NullInt64
-	CreatedAt time.Time `gorm:"not null"`
-	UpdatedAt time.Time `gorm:"not null"`
+	Tags      pq.StringArray `gorm:"type:text[];default:'{happy}'"`
+	CreatedAt time.Time      `gorm:"not null"`
+	UpdatedAt time.Time      `gorm:"not null"`
 
 	User User `gorm:"foreignKey:UserID;references:UID"`
 }
@@ -29,4 +31,5 @@ type MovieRepository interface {
 	IsExist(userID uuid.UUID, movieID int64) (bool, error)
 	CountByUserID(userID uuid.UUID, title string) (int64, error)
 	GetRating(userID uuid.UUID, movieID int64) (int64, error)
+	GetTags(userID uuid.UUID, movieID int64) ([]string, error)
 }

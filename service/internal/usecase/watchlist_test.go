@@ -144,3 +144,21 @@ func TestGetRating(t *testing.T) {
 	assert.Equal(t, int64(5), result)
 	mockMovieRepo.AssertExpectations(t)
 }
+
+func TestGetTags(t *testing.T) {
+	mockMovieRepo := new(movie.MockMovieRepo)
+	watchlistUseCase := NewWatchlistUseCase(mockMovieRepo)
+	userID := uuid.New()
+	movieID := int64(123)
+
+	// Setup expectations
+	mockMovieRepo.On("GetTags", userID, movieID).Return([]string{"happy"}, nil)
+
+	// Execute the method under test
+	result, err := watchlistUseCase.GetTags(userID, movieID)
+
+	// Assertions
+	assert.NoError(t, err)
+	assert.Equal(t, "happy", result[0])
+	mockMovieRepo.AssertExpectations(t)
+}
